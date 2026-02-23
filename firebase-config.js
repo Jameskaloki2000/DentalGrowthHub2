@@ -5,14 +5,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
 import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-firestore.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyBccWzGYs64eW6V-Fr4czFu8LqEBAFYtGc",
-    authDomain: "dental-growth-hub.firebaseapp.com",
-    projectId: "dental-growth-hub",
-    storageBucket: "dental-growth-hub.firebasestorage.app",
-    messagingSenderId: "106729533387",
-    appId: "1:106729533387:web:edd0b1a41c7136dc91904e"
-};
+import { firebaseConfig } from './env.js';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
