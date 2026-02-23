@@ -65,6 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
         revealOnScroll.observe(reveal);
     });
 
+    // Premium Glass Card Mouse Glow Effect
+    const glassCards = document.querySelectorAll('.glass-card');
+    glassCards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
     // Dynamic Scarcity Banner Logic
     const scarcityMonthSpan = document.getElementById('scarcity-month');
     const scarcityDaysSpan = document.getElementById('scarcity-days');
