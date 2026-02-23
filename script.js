@@ -1,0 +1,55 @@
+document.addEventListener('DOMContentLoaded', () => {
+    // Set current year in footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Navbar scroll effect
+    const navbar = document.querySelector('.navbar');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // Intersection Observer for scroll reveal animations
+    const revealOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px"
+    };
+
+    const revealOnScroll = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                return;
+            } else {
+                entry.target.classList.add('active');
+                // Optional: Stop observing once revealed
+                observer.unobserve(entry.target);
+            }
+        });
+    }, revealOptions);
+
+    const reveals = document.querySelectorAll('.reveal, .reveal-right');
+    reveals.forEach(reveal => {
+        revealOnScroll.observe(reveal);
+    });
+
+    // Dynamic Scarcity Banner Logic
+    const scarcityMonthSpan = document.getElementById('scarcity-month');
+    const scarcityDaysSpan = document.getElementById('scarcity-days');
+
+    if (scarcityMonthSpan && scarcityDaysSpan) {
+        const today = new Date();
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        // Get current month name
+        const currentMonth = monthNames[today.getMonth()];
+        scarcityMonthSpan.textContent = currentMonth;
+
+        // Calculate days left in the current month
+        const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+        const daysLeft = lastDayOfMonth.getDate() - today.getDate();
+        scarcityDaysSpan.textContent = daysLeft > 0 ? daysLeft : 1; // Always show at least 1 to keep urgency if it's the last day
+    }
+});

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed | Dental Growth Hub</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .thank-you-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            color: var(--gold-solid);
+            margin-bottom: 24px;
+            animation: bounceIn 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .next-steps {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--bg-surface-border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .step-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gold-solid);
+            color: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-text h4 {
+            color: var(--text-main);
+            margin-bottom: 4px;
+            font-size: 1.1rem;
+        }
+
+        .step-text p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Ambient Background -->
+    <div class="ambient-glow glow-top-left"></div>
+    <div class="ambient-glow glow-bottom-right"></div>
+
+    <main class="thank-you-hero" style="padding-top: 100px;">
+        <div class="container" style="max-width: 700px;">
+            <div class="glass-card reveal active" style="padding: 60px 40px;">
+                <i class="ph-fill ph-check-circle success-icon"></i>
+                <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 16px;">Thank <span
+                        class="text-gold">You!</span></h1>
+                <p class="section-subtitle" style="font-size: 1.15rem; color: var(--text-main);">Your strategy session
+                    has been secured. A calendar invitation with the
+                    Google Meet link has been instantly sent to your email.</p>
+
+                <!-- Pre-Call Video Section -->
+                <div class="video-section" style="margin-top: 40px; margin-bottom: 40px;">
+                    <h3 style="margin-bottom: 16px; font-size: 1.4rem;">Watch This Before Our Call ⬇️</h3>
+                    <p class="text-muted" style="margin-bottom: 24px;">Please watch this short video to know exactly
+                        what we'll cover and how to prepare.</p>
+                    <div class="vsl-wrapper">
+                        <div class="video-container">
+                            <div class="video-placeholder"
+                                onclick="alert('Client will insert preparation video URL here')">
+                                <i class="ph-fill ph-play-circle"></i>
+                                <h3 style="color: var(--text-main); font-size: 1.5rem; letter-spacing: 0.05em;">CALL
+                                    PREPARATION VIDEO</h3>
+                                <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 8px;">(Click to
+                                    Edit/Replace)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="next-steps reveal active"
+                    style="transition-delay: 0.2s; background: rgba(0, 0, 0, 0.4); border-color: rgba(244, 168, 37, 0.2);">
+                    <h3
+                        style="margin-bottom: 24px; font-size: 1.4rem; color: var(--gold-solid); border-bottom: 1px solid rgba(244, 168, 37, 0.2); padding-bottom: 16px;">
+                        Mandatory Pre-Call Instructions</h3>
+
+                    <div class="step-item">
+                        <div class="step-number">1</div>
+                        <div class="step-text">
+                            <h4>Join From a Quiet Desktop</h4>
+                            <p>For the best experience while we review your metrics and local market data, please take
+                                this call from a computer (not your phone) in a quiet, distraction-free environment.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">2</div>
+                        <div class="step-text">
+                            <h4>Show Up 5 Minutes Early</h4>
+                            <p>We start precisely on time. Because we limit our agency to onboarding strictly 3 clinics
+                                per month in Kenya, our schedules are densely packed. Late arrivals may be automatically
+                                cancelled.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">3</div>
+                        <div class="step-text">
+                            <h4>Decision Makers Present</h4>
+                            <p>If you have business partners or marketing directors involved in the final decision
+                                process, please ensure they are forwarded the calendar invite to attend.</p>
+                        </div>
+                    </div>
+
+                    <div class="step-item">
+                        <div class="step-number">4</div>
+                        <div class="step-text">
+                            <h4>Not 100% Sure You Can Attend?</h4>
+                            <p>If you have any doubts about making the time, please go to your email right now and use
+                                the link to book another time. We prefer that you reschedule rather than no-show.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Final Warning Block -->
+                <div
+                    style="background-color: rgba(229, 57, 53, 0.1); border: 1px solid #E53935; color: #ffffff; padding: 24px; border-radius: 12px; margin-top: 40px; text-align: left; display: flex; gap: 16px; align-items: flex-start;">
+                    <i class="ph-fill ph-warning-octagon" style="font-size: 2rem; color: #E53935; flex-shrink: 0;"></i>
+                    <div>
+                        <h4 style="color: #E53935; margin-bottom: 8px; font-size: 1.1rem; text-transform: uppercase;">
+                            Strict No-Show Policy</h4>
+                        <p style="font-size: 0.95rem; color: #f5f3f0; opacity: 0.9;">We value our time and yours.
+                            <strong>All no-shows will be permanently banned from our calendar.</strong> If you are not
+                            completely sure you can attend, please go to your confirmation email immediately and use the
+                            link to book another time at least 24 hours in advance.
+                        </p>
+                    </div>
+                </div>
+
+                <a href="index.html" class="btn btn-secondary" style="margin-top: 40px;">
+                    <i class="ph ph-arrow-left"></i> Return to Homepage
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Firebase: Dynamic VSL Video Loading -->
+    <script type="module">
+        import { getVSLByPlacement } from './firebase-config.js';
+
+        // Load the Thank You / Pre-Call VSL video from Firestore
+        async function loadThankYouVSL() {
+            try {
+                const video = await getVSLByPlacement('thankyou');
+                if (video && video.url) {
+                    const placeholder = document.querySelector('.video-placeholder');
+                    if (placeholder) {
+                        const container = placeholder.parentElement;
+                        container.innerHTML = `<iframe src="${video.url}" width="100%" height="100%" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="border-radius: 12px;"></iframe>`;
+                    }
+                }
+            } catch (err) {
+                console.log('VSL not loaded from Firebase — using placeholder.', err);
+            }
+        }
+
+        loadThankYouVSL();
+    </script>
+</body>
+
+</html>
