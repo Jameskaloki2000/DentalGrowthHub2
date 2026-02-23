@@ -21,7 +21,7 @@
     /* High-contrast muted text */
 
     /* Typography */
-    --font-stack: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-stack: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
     /* Spacing System (8pt scale) */
     --sp-1: 8px;
@@ -40,9 +40,9 @@
     --section-pad: var(--sp-12) 0;
 
     /* Transitions (Premium Cubic Beziers) */
-    --trans-fast: 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
-    --trans-base: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-    --trans-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --trans-fast: 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+    --trans-base: 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    --trans-slow: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* =========================================
@@ -119,17 +119,8 @@ img {
     color: var(--text-muted);
 }
 
-.mt-3 {
-    margin-top: 1rem;
-}
-
-.mt-4 {
-    margin-top: 1.5rem;
-}
-
-.w-100 {
-    width: 100%;
-    text-align: center;
+.mt-5 {
+    margin-bottom: var(--sp-8);
 }
 
 .justify-center {
@@ -265,14 +256,14 @@ img {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
+    left: 0;
     width: 60%;
     height: 100%;
     background: linear-gradient(to right,
             rgba(255, 255, 255, 0) 0%,
             rgba(255, 255, 255, 0.5) 50%,
             rgba(255, 255, 255, 0) 100%);
-    transform: skewX(-20deg);
+    transform: skewX(-20deg) translateX(-200%);
     animation: shimmer 5s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -438,13 +429,6 @@ img {
     margin-bottom: var(--sp-4);
     line-height: 1.05;
     background: linear-gradient(to bottom right, #FFFFFF, #B0B5C0);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.hero-title .text-gold {
-    background: linear-gradient(135deg, var(--gold-start) 0%, var(--gold-end) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -846,177 +830,7 @@ section {
     font-weight: 500;
 }
 
-/* =========================================
-   Founder Profile
-   ========================================= */
-.founder-section {
-    padding-top: 0;
-    /* Flows directly after previous section */
-}
 
-.founder-card {
-    display: flex;
-    align-items: center;
-    gap: 40px;
-    padding: 40px;
-}
-
-.founder-image {
-    flex-shrink: 0;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--bg-base), #1a2230);
-    border: 2px solid var(--gold-solid);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 5rem;
-    color: var(--text-muted);
-}
-
-.founder-content h3 {
-    font-size: 1.8rem;
-    margin-bottom: 16px;
-}
-
-.founder-content p {
-    color: var(--text-muted);
-    margin-bottom: 16px;
-    font-size: 1.05rem;
-}
-
-.founder-content p:last-child {
-    margin-bottom: 0;
-}
-
-/* =========================================
-   Pricing Segment
-   ========================================= */
-.pricing-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--sp-4);
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.pricing-card {
-    padding: var(--sp-8) var(--sp-6);
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    border-radius: 24px;
-}
-
-.pricing-card.popular {
-    border-color: rgba(229, 169, 60, 0.3);
-    background: linear-gradient(180deg, rgba(229, 169, 60, 0.04) 0%, var(--bg-surface) 100%);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 24px rgba(229, 169, 60, 0.05), inset 0 1px 1px rgba(255, 255, 255, 0.1);
-}
-
-.popular-badge {
-    position: absolute;
-    top: -14px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(135deg, var(--gold-start), var(--gold-end));
-    color: #000;
-    padding: 6px var(--sp-2);
-    border-radius: 100px;
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    box-shadow: 0 4px 12px rgba(229, 169, 60, 0.3);
-}
-
-.pricing-header {
-    margin-bottom: var(--sp-4);
-    border-bottom: 1px solid var(--bg-surface-border);
-    padding-bottom: var(--sp-4);
-}
-
-.pricing-header h3 {
-    font-size: 1.5rem;
-    color: var(--text-main);
-    margin-bottom: var(--sp-2);
-    font-weight: 600;
-}
-
-.pricing-header .price {
-    display: flex;
-    align-items: flex-end;
-    gap: 4px;
-}
-
-
-.pricing-header .currency {
-    font-size: 1.2rem;
-    font-weight: 500;
-    padding-bottom: 8px;
-    color: var(--text-muted);
-}
-
-.pricing-header .amount {
-    font-size: 3.5rem;
-    font-weight: 800;
-    letter-spacing: -0.03em;
-    line-height: 1;
-}
-
-.pricing-header .period {
-    font-size: 1.1rem;
-    color: var(--text-muted);
-    padding-bottom: 8px;
-}
-
-.fee-note {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-top: 12px;
-}
-
-.pricing-body {
-    flex: 1;
-    margin-bottom: 40px;
-}
-
-.features {
-    list-style: none;
-}
-
-.features li {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 16px;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-}
-
-.features li strong {
-    color: var(--text-main);
-    font-weight: 500;
-}
-
-.features li i {
-    font-size: 1.2rem;
-    margin-top: 2px;
-}
-
-.trust-badge {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-}
-
-.trust-badge i {
-    font-size: 1.1rem;
-}
 
 /* =========================================
    Booking Component
@@ -1111,15 +925,15 @@ section {
    ========================================= */
 @keyframes shimmer {
     0% {
-        left: -100%;
+        transform: skewX(-20deg) translateX(-200%);
     }
 
     20% {
-        left: 200%;
+        transform: skewX(-20deg) translateX(300%);
     }
 
     100% {
-        left: 200%;
+        transform: skewX(-20deg) translateX(300%);
     }
 }
 
@@ -1143,7 +957,7 @@ section {
 .reveal {
     opacity: 0;
     transform: translateY(30px);
-    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
     will-change: opacity, transform;
 }
 
@@ -1264,23 +1078,8 @@ section {
         grid-template-columns: 1fr;
     }
 
-    .founder-card {
-        flex-direction: column;
-        text-align: center;
-        gap: var(--sp-3);
-        padding: var(--sp-4) var(--sp-3);
-    }
-
-    .booking-widget {
-        padding: var(--sp-4) var(--sp-3);
-    }
-
     .calendar-embed {
         min-height: 750px;
-    }
-
-    .pricing-grid {
-        grid-template-columns: 1fr;
     }
 
     section {
@@ -1333,10 +1132,6 @@ section {
 
     .testimonial-card {
         padding: var(--sp-4) var(--sp-3);
-    }
-
-    .pricing-card {
-        padding: var(--sp-5) var(--sp-3);
     }
 
     .vsl-wrapper {

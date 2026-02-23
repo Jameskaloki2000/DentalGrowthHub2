@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             navbar.classList.remove('scrolled');
         }
-    });
+    }, { passive: true });
 
     // Hamburger Nav Toggle
     const navToggle = document.getElementById('navToggle');
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, revealOptions);
 
-    const reveals = document.querySelectorAll('.reveal, .reveal-right');
+    const reveals = document.querySelectorAll('.reveal');
     reveals.forEach(reveal => {
         revealOnScroll.observe(reveal);
     });
@@ -68,8 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Premium Glass Card Mouse Glow Effect
     const glassCards = document.querySelectorAll('.glass-card');
     glassCards.forEach(card => {
+        let rect;
+        // Cache the bounding rectangle on enter to prevent layout thrashing
+        // from calling getBoundingClientRect() on every mouse move
+        card.addEventListener('mouseenter', () => {
+            rect = card.getBoundingClientRect();
+        });
+
         card.addEventListener('mousemove', e => {
-            const rect = card.getBoundingClientRect();
+            if (!rect) return; // Fallback should something fail
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             card.style.setProperty('--mouse-x', `${x}px`);
