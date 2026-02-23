@@ -50,11 +50,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const revealOnScroll = new IntersectionObserver(function (entries, observer) {
         entries.forEach(entry => {
-            if (!entry.isIntersecting) {
-                return;
-            } else {
+            // Only trigger if intersecting and hasn't animated yet
+            if (entry.isIntersecting && !entry.target.hasAttribute('data-animated')) {
                 entry.target.classList.add('active');
-                // Optional: Stop observing once revealed
+                entry.target.setAttribute('data-animated', 'true');
+
+                // Explicitly stop observing this element
                 observer.unobserve(entry.target);
             }
         });
