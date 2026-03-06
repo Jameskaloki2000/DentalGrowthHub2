@@ -438,48 +438,17 @@
     <!-- Custom JS -->
     <script src="script.js"></script>
 
-    <!-- Firebase: Dynamic VSL Video Loading -->
-    <script type="module">
-        import { getVSLByPlacement } from './firebase-config.js';
-
-        // Load the Hero VSL video
-        async function loadHeroVSL() {
-            try {
-                let video = null;
-                try {
-                    video = await getVSLByPlacement('hero');
-                } catch (e) {
-                    console.log('Firebase fetch failed, falling back to local VSL');
-                }
-
-                // Fallback to local optimized video if the database fails or is empty
-                if (!video || !video.url) {
-                    video = { url: 'Assets/VSLOFFICIAL.mp4' };
-                }
-
-                if (video && video.url) {
-                    const placeholder = document.querySelector('.video-placeholder');
-                    if (placeholder) {
-                        const container = placeholder.parentElement;
-                        // Wait for click before replacing placeholder with a native vertical HTML5 video component
-                        placeholder.addEventListener('click', () => {
-                            container.innerHTML = `<video src="${video.url}" width="100%" height="100%" controls autoplay playsinline preload="auto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; object-fit: cover;"></video>`;
-                        });
-                    }
-                }
-            } catch (err) {
-                console.log('VSL not loaded from Firebase — using fallback.', err);
-                const placeholder = document.querySelector('.video-placeholder');
-                if (placeholder) {
+    <!-- VSL Click-to-Play -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const placeholder = document.querySelector('.video-placeholder');
+            if (placeholder) {
+                placeholder.addEventListener('click', function () {
                     const container = placeholder.parentElement;
-                    placeholder.addEventListener('click', () => {
-                        container.innerHTML = `<video src="Assets/VSLOFFICIAL.mp4" width="100%" height="100%" controls autoplay playsinline preload="auto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; object-fit: cover;"></video>`;
-                    });
-                }
+                    container.innerHTML = '<video src="Assets/VSLOFFICIAL.mp4" controls autoplay playsinline preload="auto" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 12px; object-fit: cover;"></video>';
+                });
             }
-        }
-
-        loadHeroVSL();
+        });
     </script>
 </body>
 
