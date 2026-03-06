@@ -24,3 +24,6 @@ env.js
 .firebase/
 firebase-debug.log
 firebase-debug.*.log
+
+# Large Media
+*.mov
