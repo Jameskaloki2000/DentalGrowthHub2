@@ -134,6 +134,14 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             formError.style.display = 'none';
 
+            // Honeypot check - if filled, this is a bot
+            const honeypot = document.getElementById('website_url').value;
+            if (honeypot) {
+                console.warn("Spam detected. Discarding submission.");
+                window.location.href = 'thankyou.html'; // Silently redirect to simulate success
+                return;
+            }
+
             const phone = document.getElementById('phone').value;
             const confirmPhone = document.getElementById('confirmPhone').value;
 
@@ -150,32 +158,37 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
 
             // Prepare the form data to be sent
+            // Remove honeypot from the actual submission
             const formData = new FormData(leadForm);
+            formData.delete('website_url');
 
-            // Note: Google Apps Script doPost generally expects `application/x-www-form-urlencoded`
+            // Google Apps Script expects `application/x-www-form-urlencoded`
             const data = new URLSearchParams();
             for (const pair of formData) {
                 data.append(pair[0], pair[1]);
             }
 
-            // The URL provided by Google Apps Script Deployment
+            // The Google Apps Script Web App URL
             const scriptURL = 'https://script.google.com/macros/s/AKfycbyOTR7OROGV3-Hbf9zQxh3e3GyRihexVki-Nsa1vNPHcm3Qda9WzVuyqBPr_koTvO0JSg/exec';
 
-            // Send POST request
+            // Send data. 'no-cors' is required because Google's redirect chain
+            // doesn't return proper CORS headers. This makes the response
+            // "opaque" — we can't read it, but we know the request was sent.
+            // We redirect immediately after sending, regardless of opaque response.
             fetch(scriptURL, {
                 method: 'POST',
+                mode: 'no-cors',
                 body: data
             })
-                .then(response => {
-                    // If it successfully submitted (doesn't have to be ok flag since Google often returns CORS opaque responses)
+                .then(() => {
+                    // Always redirect — opaque responses from Apps Script resolve here
                     window.location.href = 'thankyou.html';
                 })
                 .catch(error => {
-                    console.error('Error!', error.message);
-                    formError.textContent = "Submission failed. Please try again later or email us directly.";
+                    // Only genuine network failures land here (no internet, DNS error etc.)
+                    console.error('Network error:', error.message);
+                    formError.textContent = "Network error. Please check your connection and try again.";
                     formError.style.display = 'block';
-
-                    // Reset button
                     submitBtn.textContent = originalBtnText;
                     submitBtn.disabled = false;
                 });

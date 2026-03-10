@@ -12,6 +12,11 @@
     <link rel="canonical" href="https://dentalgrowthhub.com/" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net https://assets.calendly.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.facebook.com; connect-src 'self' https://script.google.com https://www.facebook.com https://www.google-analytics.com; frame-src 'self' https://player.vimeo.com https://calendly.com https://calendar.google.com;">
+
+
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Dental Growth Hub | AI Lead Generation for Dentists">
@@ -488,6 +493,13 @@
                     <label for="confirmPhone">Confirm Phone Number</label>
                     <input type="tel" id="confirmPhone" name="confirmPhone" required placeholder="+254 700 000000">
                 </div>
+
+                <!-- Honeypot Field -->
+                <div class="form-group" style="display:none;" aria-hidden="true">
+                    <label for="website_url">Leave this field blank</label>
+                    <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+                </div>
+
                 <div id="formError" class="form-error"
                     style="display: none; color: #ff6b6b; margin-bottom: 12px; font-size: 0.9rem;"></div>
                 <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Submit</button>
