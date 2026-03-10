@@ -143,10 +143,42 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // In a real scenario, you'd send data to a backend or webhook here.
+            // Reference submit button to show loading status
+            const submitBtn = leadForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = "Submitting...";
+            submitBtn.disabled = true;
 
-            // Redirect to thank you page
-            window.location.href = 'thankyou.html';
+            // Prepare the form data to be sent
+            const formData = new FormData(leadForm);
+
+            // Note: Google Apps Script doPost generally expects `application/x-www-form-urlencoded`
+            const data = new URLSearchParams();
+            for (const pair of formData) {
+                data.append(pair[0], pair[1]);
+            }
+
+            // The URL provided by Google Apps Script Deployment
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyOTR7OROGV3-Hbf9zQxh3e3GyRihexVki-Nsa1vNPHcm3Qda9WzVuyqBPr_koTvO0JSg/exec';
+
+            // Send POST request
+            fetch(scriptURL, {
+                method: 'POST',
+                body: data
+            })
+                .then(response => {
+                    // If it successfully submitted (doesn't have to be ok flag since Google often returns CORS opaque responses)
+                    window.location.href = 'thankyou.html';
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    formError.textContent = "Submission failed. Please try again later or email us directly.";
+                    formError.style.display = 'block';
+
+                    // Reset button
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                });
         });
     }
 });
