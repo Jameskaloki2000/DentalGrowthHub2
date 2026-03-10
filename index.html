@@ -391,7 +391,7 @@
             <div class="booking-widget glass-card reveal">
                 <!-- Google Calendar Appointment Scheduling Embed -->
                 <!-- The user will replace the "src" link with their specific Google Calendar booking link -->
-                <div class="calendar-embed">
+                <div class="calendar-embed" id="google-calendar-embed">
                     <!-- Google Calendar Appointment Scheduling begin -->
                     <iframe title="Book a Free Strategy Call"
                         src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ36wlbSLcwiPIYdnOzfRKPw9qYGkgEjQ7QWt-wxNy8GcDN1W9ymjXzWgIbPfiRPd_52gs226Tlt?gv=true"
@@ -403,7 +403,7 @@
                 <div class="post-booking-action mt-5"
                     style="border-top: 1px solid var(--bg-surface-border); padding-top: 32px; text-align: center;">
                     <h4 style="margin-bottom: 24px;">Already secured your spot above?</h4>
-                    <a href="thankyou.html" class="btn btn-primary btn-lg"
+                    <a href="#" id="postBookingBtn" class="btn btn-primary btn-lg"
                         style="width: 100%; max-width: 400px; margin: 0 auto;">
                         Click Here to Continue <i class="ph ph-arrow-right" aria-hidden="true"></i>
                     </a>
@@ -458,6 +458,43 @@
             }
         });
     </script>
+    <!-- Lead Capture Modal -->
+    <div class="modal-overlay" id="leadModal">
+        <div class="modal-content glass-card">
+            <button class="modal-close" id="closeModal" aria-label="Close modal"><i class="ph ph-x"></i></button>
+            <div class="modal-header">
+                <h3>Request Strategy Call</h3>
+                <p class="text-muted">Please provide your details before booking a date.</p>
+            </div>
+            <form id="leadForm" class="lead-form">
+                <div class="form-group">
+                    <label for="clinicName">Clinic Name</label>
+                    <input type="text" id="clinicName" name="clinicName" required
+                        placeholder="e.g. Modern Smiles Dental">
+                </div>
+                <div class="form-group">
+                    <label for="doctorName">Doctor Name</label>
+                    <input type="text" id="doctorName" name="doctorName" required placeholder="e.g. Dr. Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required placeholder="doctor@clinic.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required placeholder="+254 700 000000">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPhone">Confirm Phone Number</label>
+                    <input type="tel" id="confirmPhone" name="confirmPhone" required placeholder="+254 700 000000">
+                </div>
+                <div id="formError" class="form-error"
+                    style="display: none; color: #ff6b6b; margin-bottom: 12px; font-size: 0.9rem;"></div>
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Continue to Booking</button>
+            </form>
+        </div>
+    </div>
+
 </body>
 
 </html>

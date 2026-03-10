@@ -102,4 +102,51 @@ document.addEventListener('DOMContentLoaded', () => {
         const daysLeft = lastDayOfMonth.getDate() - today.getDate();
         scarcityDaysSpan.textContent = daysLeft > 0 ? daysLeft : 1; // Always show at least 1 to keep urgency if it's the last day
     }
+
+    // Lead Capture Modal Logic
+    const leadModal = document.getElementById('leadModal');
+    const closeModal = document.getElementById('closeModal');
+    const leadForm = document.getElementById('leadForm');
+    const formError = document.getElementById('formError');
+
+    // Find the "Click Here to Continue" button
+    const postBookingBtn = document.getElementById('postBookingBtn');
+
+    if (leadModal && leadForm && postBookingBtn) {
+        postBookingBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            leadModal.classList.add('active');
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            leadModal.classList.remove('active');
+        });
+
+        leadModal.addEventListener('click', (e) => {
+            if (e.target === leadModal) {
+                leadModal.classList.remove('active');
+            }
+        });
+
+        // Handle form submission
+        leadForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formError.style.display = 'none';
+
+            const phone = document.getElementById('phone').value;
+            const confirmPhone = document.getElementById('confirmPhone').value;
+
+            if (phone !== confirmPhone) {
+                formError.textContent = "Phone numbers do not match. Please try again.";
+                formError.style.display = 'block';
+                return;
+            }
+
+            // In a real scenario, you'd send data to a backend or webhook here.
+
+            // Redirect to thank you page
+            window.location.href = 'thankyou.html';
+        });
+    }
 });
