@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // The Google Apps Script Web App URL
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbyOTR7OROGV3-Hbf9zQxh3e3GyRihexVki-Nsa1vNPHcm3Qda9WzVuyqBPr_koTvO0JSg/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzmmHeiB_g8u3Vyqku89RNve-Gcs3MDane5vZ4mPL8nPs5pjS1bIyHFUDjxCRw-75g6Uw/exec';
 
             // Send data. 'no-cors' is required because Google's redirect chain
             // doesn't return proper CORS headers. This makes the response
