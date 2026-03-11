@@ -451,8 +451,8 @@ img {
 
 /* VSL Wrapper Styles */
 .vsl-wrapper {
-    max-width: 380px;
-    /* Reduced for vertical video so it doesn't take up the whole screen height on desktop */
+    max-width: 800px;
+    /* Increased for horizontal video */
     margin: 0 auto;
     border-radius: 16px;
     overflow: hidden;
@@ -463,8 +463,8 @@ img {
 
 .video-container {
     position: relative;
-    padding-bottom: 177.77%;
-    /* 9:16 vertical Aspect Ratio */
+    padding-bottom: 56.25%;
+    /* 16:9 horizontal Aspect Ratio */
     height: 0;
     overflow: hidden;
     background: var(--bg-surface);

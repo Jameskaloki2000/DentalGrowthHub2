@@ -186,16 +186,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const email = document.getElementById('email').value;
                     const phone = document.getElementById('phone').value;
                     
-                    // Trigger Lead event. FB SDK handles hashing if configured, but passing strings is standard for web pixel.
+                    // Trigger Lead event.
                     if (typeof fbq === 'function') {
                         fbq('track', 'Lead', {
                             content_name: 'Strategy Call Request',
                             content_category: 'Lead Capture'
-                        }, {
-                            em: email.toLowerCase().trim(),
-                            ph: phone.replace(/\D/g, ''),
-                            fn: doctorName.split(' ')[0].toLowerCase().trim(),
-                            ln: doctorName.split(' ').slice(1).join(' ').toLowerCase().trim()
                         });
                     }
 
