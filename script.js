@@ -181,8 +181,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: data
             })
                 .then(() => {
-                    // Always redirect — opaque responses from Apps Script resolve here
-                    window.location.href = 'thankyou.html';
+                    // Meta Pixel Lead Tracking with Advanced Matching
+                    const doctorName = document.getElementById('doctorName').value;
+                    const email = document.getElementById('email').value;
+                    const phone = document.getElementById('phone').value;
+                    
+                    // Trigger Lead event. FB SDK handles hashing if configured, but passing strings is standard for web pixel.
+                    if (typeof fbq === 'function') {
+                        fbq('track', 'Lead', {
+                            content_name: 'Strategy Call Request',
+                            content_category: 'Lead Capture'
+                        }, {
+                            em: email.toLowerCase().trim(),
+                            ph: phone.replace(/\D/g, ''),
+                            fn: doctorName.split(' ')[0].toLowerCase().trim(),
+                            ln: doctorName.split(' ').slice(1).join(' ').toLowerCase().trim()
+                        });
+                    }
+
+                    // Delay redirect slightly to ensure Meta Pixel has time to fire the Lead event
+                    setTimeout(() => {
+                        window.location.href = 'thankyou.html';
+                    }, 400);
                 })
                 .catch(error => {
                     // Only genuine network failures land here (no internet, DNS error etc.)
