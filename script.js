@@ -210,3 +210,24 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Play Video function for custom VSL thumbnail
+function playVideo(container) {
+    const iframe = container.querySelector('iframe');
+    const placeholder = container.querySelector('.video-placeholder');
+    const playBtn = container.querySelector('.play-button');
+    
+    if (placeholder) placeholder.style.opacity = '0';
+    if (playBtn) playBtn.style.opacity = '0';
+    
+    setTimeout(() => {
+        if (placeholder) placeholder.style.display = 'none';
+        if (playBtn) playBtn.style.display = 'none';
+    }, 300);
+
+    let src = iframe.getAttribute('src');
+    if (src && !src.includes('autoplay=1')) {
+        src = src.replace('autoplay=0', 'autoplay=1');
+        iframe.setAttribute('src', src + '&autoplay=1');
+    }
+}
