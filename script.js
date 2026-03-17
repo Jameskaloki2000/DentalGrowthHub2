@@ -172,18 +172,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(leadForm);
             
             // Clean up name field if the script expects 'doctorName'
-            const firstName = formData.get('firstName');
-            const lastName = formData.get('lastName');
-            formData.append('doctorName', `${firstName} ${lastName}`);
+            const firstName = formData.get('firstName') || '';
+            const lastName = formData.get('lastName') || '';
+            formData.set('doctorName', `${firstName} ${lastName}`.trim());
             
             // Collect checked procedures
             const procedures = Array.from(leadForm.querySelectorAll('input[name="procedures"]:checked'))
                 .map(cb => cb.value)
                 .join(', ');
-            formData.delete('procedures'); // Remove individual entries
-            formData.append('procedures', procedures);
+            formData.set('procedures', procedures);
 
-            // Remove honeypot from the actual submission
+            // Remove internal fields from the actual submission
             formData.delete('website_url');
 
             // Google Apps Script expects `application/x-www-form-urlencoded`
@@ -192,16 +191,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 data.append(pair[0], pair[1]);
             }
 
+            console.log('Final submission data:', data.toString());
+
             // The Google Apps Script Web App URL
             const scriptURL = 'https://script.google.com/macros/s/AKfycbzGOj2Vm1OWXUSvtQEC1Hq1UN5zkXMXMTAIZWFnYAQZ-StbYxQyvCwmpYcmBMf8GweN2Q/exec';
 
             // Send data. 'no-cors' is required
+            console.log('Attempting fetch to:', scriptURL);
             fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
                 body: data
             })
                 .then(() => {
+                    console.log('Submission successful (no-cors response received)');
                     // Trigger Lead event for Meta Pixel
                     if (typeof fbq === 'function') {
                         fbq('track', 'Lead', {
@@ -210,10 +213,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
 
-                    // Delay redirect slightly to ensure Meta Pixel has time to fire
+                    // Delay redirect to ensure Meta Pixel and network request finish
                     setTimeout(() => {
                         window.location.href = 'thankyou.html';
-                    }, 400);
+                    }, 1000);
                 })
                 .catch(error => {
                     console.error('Network error:', error.message);
