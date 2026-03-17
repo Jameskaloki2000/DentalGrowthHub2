@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Delay redirect to ensure Meta Pixel and network request finish
                     setTimeout(() => {
                         window.location.href = `thankyou.html?${am.toString()}`;
-                    }, 1000);
+                    }, 500);
                 })
                 .catch(error => {
                     console.error('Network error:', error.message);
