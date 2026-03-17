@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Final submission data:', data.toString());
 
             // The Google Apps Script Web App URL
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzGOj2Vm1OWXUSvtQEC1Hq1UN5zkXMXMTAIZWFnYAQZ-StbYxQyvCwmpYcmBMf8GweN2Q/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzLbGoD3-l4sYLrSiFFXCR-QSbpNgo6_I1XDTfLNHa4sBS9Zk1frKKWjtlk0xE3XJlWqQ/exec';
 
             // Send data. 'no-cors' is required
             console.log('Attempting fetch to:', scriptURL);
