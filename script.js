@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const honeypot = document.getElementById('website_url').value;
             if (honeypot) {
                 console.warn("Spam detected. Discarding submission.");
-                window.location.href = 'schedule.html'; // Silently redirect to simulate success
+                window.location.href = 'thankyou.html'; // Silently redirect to simulate success
                 return;
             }
 
@@ -212,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Delay redirect slightly to ensure Meta Pixel has time to fire
                     setTimeout(() => {
-                        window.location.href = 'schedule.html';
+                        window.location.href = 'thankyou.html';
                     }, 400);
                 })
                 .catch(error => {
