@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // The Google Apps Script Web App URL
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzmmHeiB_g8u3Vyqku89RNve-Gcs3MDane5vZ4mPL8nPs5pjS1bIyHFUDjxCRw-75g6Uw/exec';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbzGOj2Vm1OWXUSvtQEC1Hq1UN5zkXMXMTAIZWFnYAQZ-StbYxQyvCwmpYcmBMf8GweN2Q/exec';
 
             // Send data. 'no-cors' is required
             fetch(scriptURL, {
