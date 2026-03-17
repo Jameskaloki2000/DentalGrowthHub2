@@ -112,11 +112,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // Find the "Click Here to Continue" button
     const postBookingBtn = document.getElementById('postBookingBtn');
 
-    if (leadModal && leadForm && postBookingBtn) {
-        postBookingBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            leadModal.classList.add('active');
+    if (leadModal && leadForm) {
+        // Universal modal trigger logic
+        document.querySelectorAll('.open-lead-modal').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                leadModal.classList.add('active');
+            });
         });
+
+        if (postBookingBtn) {
+            postBookingBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                leadModal.classList.add('active');
+            });
+        }
 
         // Close modal
         closeModal.addEventListener('click', () => {
@@ -138,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const honeypot = document.getElementById('website_url').value;
             if (honeypot) {
                 console.warn("Spam detected. Discarding submission.");
-                window.location.href = 'thankyou.html'; // Silently redirect to simulate success
+                window.location.href = 'schedule.html'; // Silently redirect to simulate success
                 return;
             }
 
@@ -212,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Delay redirect slightly to ensure Meta Pixel has time to fire
                     setTimeout(() => {
-                        window.location.href = 'thankyou.html';
+                        window.location.href = 'schedule.html';
                     }, 400);
                 })
                 .catch(error => {

@@ -84,8 +84,8 @@
                 <a href="#our-process">Process</a>
                 <a href="#why-us">Why Us</a>
                 <a href="#services">Services</a>
-                <a href="#booking">Contact</a>
-                <a href="#booking" class="btn btn-primary btn-sm nav-cta">Book Free Strategy Call</a>
+                <a href="#booking" id="navContactLink">Contact</a>
+                <button class="btn btn-primary btn-sm nav-cta open-lead-modal">Book Free Strategy Call</button>
             </div>
             <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
                 <span></span>
@@ -105,7 +105,7 @@
                 <p class="hero-subtitle">AI-driven lead generation exclusively for cosmetic dentists & orthodontists. We
                     guarantee results or your money back.</p>
                 <div class="hero-actions justify-center mb-5">
-                    <a href="#booking" class="btn btn-primary btn-lg">Book Free Strategy Call</a>
+                    <button class="btn btn-primary btn-lg open-lead-modal">Book Free Strategy Call</button>
                 </div>
 
                 <!-- VSL Video Wrapper -->
@@ -381,29 +381,16 @@
                     the Kenyan market.</p>
             </div>
 
-            <div class="booking-widget glass-card reveal">
-                <!-- Google Calendar Appointment Scheduling Embed -->
-                <!-- The user will replace the "src" link with their specific Google Calendar booking link -->
-                <div class="calendar-embed" id="google-calendar-embed">
-                    <!-- Google Calendar Appointment Scheduling begin -->
-                    <iframe title="Book a Free Strategy Call"
-                        src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ36wlbSLcwiPIYdnOzfRKPw9qYGkgEjQ7QWt-wxNy8GcDN1W9ymjXzWgIbPfiRPd_52gs226Tlt?gv=true"
-                        style="border: 0" width="100%" height="600" frameborder="0"></iframe>
-                    <!-- end Google Calendar Appointment Scheduling -->
-                </div>
-
-                <!-- Post Booking Routing -->
-                <div class="post-booking-action mt-5"
-                    style="border-top: 1px solid var(--bg-surface-border); padding-top: 32px; text-align: center;">
-                    <h4 style="margin-bottom: 24px;">Already secured your spot above?</h4>
-                    <a href="#" id="postBookingBtn" class="btn btn-primary btn-lg"
-                        style="width: 100%; max-width: 400px; margin: 0 auto;">
-                        Click Here to Continue <i class="ph ph-arrow-right" aria-hidden="true"></i>
-                    </a>
+            <div class="booking-widget glass-card reveal" style="max-width: 600px;">
+                <div style="text-align: center; padding: var(--sp-4) 0;">
+                    <i class="ph ph-calendar-check text-gold-solid" style="font-size: 4rem; margin-bottom: var(--sp-4); display: block;"></i>
+                    <h3 style="font-size: 1.75rem; margin-bottom: var(--sp-3);">Ready to See the Calendar?</h3>
+                    <p class="text-muted" style="margin-bottom: var(--sp-6);">Fill out our 30-second application to verify your clinic and get instant access to our strategy call calendar.</p>
+                    <button class="btn btn-primary btn-lg open-lead-modal" style="width: 100%;">Apply Now to Book Call</button>
                 </div>
 
                 <div class="contact-details mt-5" style="text-align: center;">
-                    <p class="text-muted pb-2">Having trouble booking? Email us:</p>
+                    <p class="text-muted pb-2">Having trouble? Email us:</p>
                     <a href="mailto:dentalgrowthhub.ke@gmail.com"
                         style="color: var(--gold-solid); font-weight: 600;">dentalgrowthhub.ke@gmail.com</a>
                 </div>
@@ -430,7 +417,7 @@
                 <a href="#our-process">Process</a>
                 <a href="#why-us">Why Us</a>
                 <a href="#services">Services</a>
-                <a href="#booking">Contact</a>
+                <a href="#" class="open-lead-modal">Contact</a>
                 <a href="privacy-policy.html">Privacy Policy</a>
             </div>
         </div>
@@ -530,7 +517,7 @@
 
                 <div id="formError" class="form-error"
                     style="display: none; color: #ff6b6b; margin-bottom: 12px; font-size: 0.9rem;"></div>
-                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Submit</button>
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Check Qualification & See Calendar</button>
             </form>
         </div>
     </div>
