@@ -152,6 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Email validation
+            const email = document.getElementById('email').value.toLowerCase();
+            const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                formError.textContent = "Please enter a valid email address.";
+                formError.style.display = 'block';
+                return;
+            }
 
             const phone = document.getElementById('phone').value;
             const confirmPhone = document.getElementById('confirmPhone').value;
