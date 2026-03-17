@@ -201,17 +201,38 @@ document.addEventListener('DOMContentLoaded', () => {
             })
                 .then(() => {
                     console.log('Submission successful (no-cors response received)');
-                    // Trigger Lead event for Meta Pixel
+                    
+                    // Generate a unique External ID for deduplication
+                    const externalId = 'DH' + Date.now() + Math.random().toString(36).substr(2, 9);
+                    
+                    // Map budget to lead value for Meta Pixel
+                    const budgetValue = formData.get('budget');
+                    let leadValue = 50; // Default base value
+                    if (budgetValue === 'KES 150,000 - KES 300,000') leadValue = 150;
+                    if (budgetValue === 'KES 300,000+') leadValue = 300;
+
+                    // Trigger Lead event for Meta Pixel with value and deduplication ID
                     if (typeof fbq === 'function') {
                         fbq('track', 'Lead', {
                             content_name: 'Strategy Call Request',
-                            content_category: 'Lead Capture'
+                            content_category: 'Lead Capture',
+                            value: leadValue,
+                            currency: 'USD', // Meta usually prefers USD for global standard
+                            external_id: externalId
                         });
                     }
 
+                    // Prepare Advanced Matching data for thankyou.html
+                    const am = new URLSearchParams();
+                    am.append('em', formData.get('email'));
+                    am.append('fn', formData.get('firstName'));
+                    am.append('ln', formData.get('lastName'));
+                    am.append('ph', formData.get('phone'));
+                    am.append('external_id', externalId);
+
                     // Delay redirect to ensure Meta Pixel and network request finish
                     setTimeout(() => {
-                        window.location.href = 'thankyou.html';
+                        window.location.href = `thankyou.html?${am.toString()}`;
                     }, 1000);
                 })
                 .catch(error => {

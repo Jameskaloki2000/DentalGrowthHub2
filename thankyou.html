@@ -140,6 +140,16 @@
 
     <!-- Meta Pixel Code -->
     <script>
+        // Parse URL parameters for Advanced Matching and deduplication
+        const urlParams = new URLSearchParams(window.location.search);
+        const userData = {
+            em: urlParams.get('em') ? urlParams.get('em').toLowerCase().trim() : undefined,
+            fn: urlParams.get('fn') ? urlParams.get('fn').toLowerCase().trim() : undefined,
+            ln: urlParams.get('ln') ? urlParams.get('ln').toLowerCase().trim() : undefined,
+            ph: urlParams.get('ph') ? urlParams.get('ph').replace(/[^0-9]/g, '') : undefined,
+            external_id: urlParams.get('external_id') || undefined
+        };
+
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
@@ -151,10 +161,17 @@
             s.parentNode.insertBefore(t, s)
         }(window, document, 'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1274963728058332');
+        
+        // Init with Advanced Matching data
+        fbq('init', '1274963728058332', userData);
         fbq('track', 'PageView');
-        fbq('track', 'Schedule');
-        fbq('track', 'CompleteRegistration');
+        
+        // Track events with deduplication ID
+        const trackOptions = userData.external_id ? { external_id: userData.external_id } : {};
+        if (urlParams.has('external_id')) {
+            fbq('track', 'Schedule', trackOptions);
+            fbq('track', 'CompleteRegistration', trackOptions);
+        }
     </script>
     <noscript><img height="1" width="1" style="display:none"
             src="https://www.facebook.com/tr?id=1274963728058332&ev=PageView&noscript=1" /></noscript>
