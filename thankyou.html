@@ -179,15 +179,16 @@
         /* --- Mobile Responsiveness --- */
         @media (max-width: 768px) {
             .thank-you-card {
-                padding: 40px 24px;
+                padding: 40px 16px; /* Reduced side padding */
             }
 
             .next-steps {
-                padding: 30px 20px;
+                padding: 30px 16px;
             }
 
             .calendar-wrapper {
                 height: 800px; /* More height for mobile stack */
+                margin: 30px -4px; /* Slight negative margin to reclaim space */
             }
 
             .progress-container {
@@ -200,6 +201,14 @@
         }
 
         @media (max-width: 480px) {
+            .thank-you-hero {
+                padding: 40px 10px; /* Reclaim more space for the container */
+            }
+            
+            .thank-you-card {
+                padding: 40px 12px; /* Minimal padding to let the calendar breathe */
+            }
+
             .thank-you-title {
                 font-size: 2rem;
             }
