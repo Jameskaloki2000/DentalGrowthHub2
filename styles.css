@@ -503,8 +503,8 @@ img {
     z-index: 20;
     background: rgba(0,0,0,0.6);
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
+    width: 64px; /* Reduced from 80px to be less "huge" */
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -513,10 +513,16 @@ img {
 }
 
 .play-button i {
-    font-size: 3rem;
+    font-size: 2rem; /* Reduced from 3rem */
     color: white;
     filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
     transition: var(--trans-base);
+}
+
+.video-container.playing .play-button {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, -50%) scale(0.8);
 }
 
 .video-container:hover .play-button {

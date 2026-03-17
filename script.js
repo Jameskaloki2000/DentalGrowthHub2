@@ -247,6 +247,9 @@ function playVideo(container) {
 
     if (!vslLightbox || !vslExpandedContent || !originalIframe) return;
 
+    // Hide the play button overlay on the main page
+    container.classList.add('playing');
+
     // Clone the iframe to move it to the lightbox
     const newIframe = originalIframe.cloneNode(true);
     let src = newIframe.getAttribute('src');
@@ -273,6 +276,7 @@ function playVideo(container) {
     // Close logic
     const closeHandler = () => {
         vslLightbox.classList.remove('active');
+        container.classList.remove('playing');
         document.body.style.overflow = '';
         vslExpandedContent.innerHTML = ''; // Stop video
         closeVsl.removeEventListener('click', closeHandler);
