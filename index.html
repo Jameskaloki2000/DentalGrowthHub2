@@ -116,8 +116,6 @@
                 </div>
                 <div class="vsl-wrapper reveal" style="transition-delay: 0.1s">
                     <div class="video-container" onclick="playVideo(this)">
-                        <img src="Assets/VSL_v2.png" alt="Video Placeholder" class="video-placeholder">
-                        <div class="video-overlay"></div>
                         <div class="play-button">
                             <i class="ph-fill ph-play"></i>
                         </div>
@@ -447,18 +445,20 @@
                 <p class="text-muted">Please provide your details before proceeding so we can easily contact you.</p>
             </div>
             <form id="leadForm" class="lead-form">
-                <div class="form-group">
-                    <label for="clinicName">Clinic Name</label>
-                    <input type="text" id="clinicName" name="clinicName" required
-                        placeholder="e.g. Modern Smiles Dental">
+                <div class="form-row" style="display: flex; gap: 12px; margin-bottom: 12px;">
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required placeholder="Jane">
+                    </div>
+                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required placeholder="Doe">
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="doctorName">Doctor Name</label>
-                    <input type="text" id="doctorName" name="doctorName" required placeholder="e.g. Dr. Jane Doe">
-                </div>
-                <div class="form-group">
-                    <label for="email">Email Address</label>
+                    <label for="email">Work Email</label>
                     <input type="email" id="email" name="email" required placeholder="doctor@clinic.com">
+                    <small style="color: var(--text-muted); font-size: 0.75rem;">Professional clinic emails only.</small>
                 </div>
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
@@ -467,6 +467,59 @@
                 <div class="form-group">
                     <label for="confirmPhone">Confirm Phone Number</label>
                     <input type="tel" id="confirmPhone" name="confirmPhone" required placeholder="+254 700 000000">
+                </div>
+                <div class="form-group">
+                    <label for="clinicNameDisplay">Clinic Name</label>
+                    <input type="text" id="clinicNameDisplay" name="clinicName" required placeholder="e.g. Modern Smiles Dental">
+                </div>
+                <div class="form-group">
+                    <label for="clinicWebsite">Clinic Website URL</label>
+                    <input type="url" id="clinicWebsite" name="clinicWebsite" placeholder="https://practice.com">
+                </div>
+                <div class="form-group">
+                    <label for="role">What is your role at the practice?</label>
+                    <select id="role" name="role" required style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); font-family: inherit;">
+                        <option value="" disabled selected>Select your role</option>
+                        <option value="Owner / Founder">Owner / Founder</option>
+                        <option value="Partner">Partner</option>
+                        <option value="Associate Dentist">Associate Dentist</option>
+                        <option value="Practice Manager">Practice Manager</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>High-ticket procedures you want to book:</label>
+                    <div class="checkbox-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                            <input type="checkbox" name="procedures" value="Dental Implants"> Dental Implants
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                            <input type="checkbox" name="procedures" value="Invisalign / Orthodontics"> Invisalign
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                            <input type="checkbox" name="procedures" value="Cosmetic Veneers"> Cosmetic Veneers
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                            <input type="checkbox" name="procedures" value="All-on-4s"> All-on-4s
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                            <input type="checkbox" name="procedures" value="General Dentistry"> General Dentistry
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="revenueGoals">Current monthly revenue vs 6-month goal?</label>
+                    <input type="text" id="revenueGoals" name="revenueGoals" required placeholder="e.g. KES 500k now, want KES 3M">
+                </div>
+                <div class="form-group">
+                    <label for="budget">Allocated monthly budget for patient acquisition?</label>
+                    <select id="budget" name="budget" required style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); font-family: inherit;">
+                        <option value="" disabled selected>Select budget range</option>
+                        <option value="Under KES 50,000">Under KES 50,000</option>
+                        <option value="KES 50,000 - KES 150,000">KES 50,000 - KES 150,000</option>
+                        <option value="KES 150,000 - KES 300,000">KES 150,000 - KES 300,000</option>
+                        <option value="KES 300,000+">KES 300,000+</option>
+                    </select>
                 </div>
 
                 <!-- Honeypot Field -->
@@ -479,6 +532,16 @@
                     style="display: none; color: #ff6b6b; margin-bottom: 12px; font-size: 0.9rem;"></div>
                 <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Submit</button>
             </form>
+        </div>
+    </div>
+
+    <!-- VSL Lightbox Modal -->
+    <div class="vsl-lightbox" id="vslLightbox">
+        <button class="vsl-close" id="closeVsl" aria-label="Close video"><i class="ph ph-x"></i></button>
+        <div class="vsl-container">
+            <div id="vslExpandedContent">
+                <!-- Iframe will be moved here via JS -->
+            </div>
         </div>
     </div>
 

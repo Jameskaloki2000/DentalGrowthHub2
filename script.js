@@ -142,6 +142,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            // Professional Email Validation
+            const email = document.getElementById('email').value.toLowerCase();
+            const freeProviders = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com', 'aol.com', 'mail.com', 'zoho.com', 'protonmail.com', 'yandex.com'];
+            const emailDomain = email.split('@')[1];
+
+            if (freeProviders.includes(emailDomain)) {
+                formError.textContent = "Please use a professional clinic email address. Free email providers are not accepted.";
+                formError.style.display = 'block';
+                return;
+            }
+
             const phone = document.getElementById('phone').value;
             const confirmPhone = document.getElementById('confirmPhone').value;
 
@@ -158,8 +169,21 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.disabled = true;
 
             // Prepare the form data to be sent
-            // Remove honeypot from the actual submission
             const formData = new FormData(leadForm);
+            
+            // Clean up name field if the script expects 'doctorName'
+            const firstName = formData.get('firstName');
+            const lastName = formData.get('lastName');
+            formData.append('doctorName', `${firstName} ${lastName}`);
+            
+            // Collect checked procedures
+            const procedures = Array.from(leadForm.querySelectorAll('input[name="procedures"]:checked'))
+                .map(cb => cb.value)
+                .join(', ');
+            formData.delete('procedures'); // Remove individual entries
+            formData.append('procedures', procedures);
+
+            // Remove honeypot from the actual submission
             formData.delete('website_url');
 
             // Google Apps Script expects `application/x-www-form-urlencoded`
@@ -171,22 +195,14 @@ document.addEventListener('DOMContentLoaded', () => {
             // The Google Apps Script Web App URL
             const scriptURL = 'https://script.google.com/macros/s/AKfycbzmmHeiB_g8u3Vyqku89RNve-Gcs3MDane5vZ4mPL8nPs5pjS1bIyHFUDjxCRw-75g6Uw/exec';
 
-            // Send data. 'no-cors' is required because Google's redirect chain
-            // doesn't return proper CORS headers. This makes the response
-            // "opaque" — we can't read it, but we know the request was sent.
-            // We redirect immediately after sending, regardless of opaque response.
+            // Send data. 'no-cors' is required
             fetch(scriptURL, {
                 method: 'POST',
                 mode: 'no-cors',
                 body: data
             })
                 .then(() => {
-                    // Meta Pixel Lead Tracking with Advanced Matching
-                    const doctorName = document.getElementById('doctorName').value;
-                    const email = document.getElementById('email').value;
-                    const phone = document.getElementById('phone').value;
-                    
-                    // Trigger Lead event.
+                    // Trigger Lead event for Meta Pixel
                     if (typeof fbq === 'function') {
                         fbq('track', 'Lead', {
                             content_name: 'Strategy Call Request',
@@ -194,13 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         });
                     }
 
-                    // Delay redirect slightly to ensure Meta Pixel has time to fire the Lead event
+                    // Delay redirect slightly to ensure Meta Pixel has time to fire
                     setTimeout(() => {
                         window.location.href = 'thankyou.html';
                     }, 400);
                 })
                 .catch(error => {
-                    // Only genuine network failures land here (no internet, DNS error etc.)
                     console.error('Network error:', error.message);
                     formError.textContent = "Network error. Please check your connection and try again.";
                     formError.style.display = 'block';
@@ -211,23 +226,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Play Video function for custom VSL thumbnail
+// Play Video function with Lightbox Expansion
 function playVideo(container) {
-    const iframe = container.querySelector('iframe');
-    const placeholder = container.querySelector('.video-placeholder');
-    const playBtn = container.querySelector('.play-button');
-    
-    if (placeholder) placeholder.style.opacity = '0';
-    if (playBtn) playBtn.style.opacity = '0';
-    
-    setTimeout(() => {
-        if (placeholder) placeholder.style.display = 'none';
-        if (playBtn) playBtn.style.display = 'none';
-    }, 300);
+    const vslLightbox = document.getElementById('vslLightbox');
+    const vslExpandedContent = document.getElementById('vslExpandedContent');
+    const originalIframe = container.querySelector('iframe');
+    const closeVsl = document.getElementById('closeVsl');
 
-    let src = iframe.getAttribute('src');
+    if (!vslLightbox || !vslExpandedContent || !originalIframe) return;
+
+    // Clone the iframe to move it to the lightbox
+    const newIframe = originalIframe.cloneNode(true);
+    let src = newIframe.getAttribute('src');
+    
+    // Set autoplay
     if (src && !src.includes('autoplay=1')) {
-        src = src.replace('autoplay=0', 'autoplay=1');
-        iframe.setAttribute('src', src + '&autoplay=1');
+        if (src.includes('?')) {
+            src = src.replace('autoplay=0', 'autoplay=1');
+            if (!src.includes('autoplay=1')) src += '&autoplay=1';
+        } else {
+            src += '?autoplay=1';
+        }
+        newIframe.setAttribute('src', src);
     }
+
+    // Clear previous and add new
+    vslExpandedContent.innerHTML = '';
+    vslExpandedContent.appendChild(newIframe);
+
+    // Show Lightbox
+    vslLightbox.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scroll
+
+    // Close logic
+    const closeHandler = () => {
+        vslLightbox.classList.remove('active');
+        document.body.style.overflow = '';
+        vslExpandedContent.innerHTML = ''; // Stop video
+        closeVsl.removeEventListener('click', closeHandler);
+        vslLightbox.removeEventListener('click', backdropHandler);
+    };
+
+    const backdropHandler = (e) => {
+        if (e.target === vslLightbox) closeHandler();
+    };
+
+    closeVsl.addEventListener('click', closeHandler);
+    vslLightbox.addEventListener('click', backdropHandler);
+
+    // escape key close... (no changes needed to the logic, just confirming it doesn't hide the original)
+    // Escape key to close
+    document.addEventListener('keydown', function escHandler(e) {
+        if (e.key === 'Escape') {
+            closeHandler();
+            document.removeEventListener('keydown', escHandler);
+        }
+    });
 }
+
+
