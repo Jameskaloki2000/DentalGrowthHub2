@@ -177,8 +177,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 .join(', ');
             formData.set('procedures', procedures);
 
-            // Remove internal fields from the actual submission
-            formData.delete('website_url');
+            // Remove internal fields and validation fields from the actual submission
+            formData.delete('website_url'); // Honeypot
+            formData.delete('confirmPhone'); // Validation only
 
             // Google Apps Script expects `application/x-www-form-urlencoded`
             const data = new URLSearchParams();
