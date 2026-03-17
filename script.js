@@ -171,11 +171,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Prepare the form data to be sent
             const formData = new FormData(leadForm);
             
-            // Clean up name field if the script expects 'doctorName'
-            const firstName = formData.get('firstName') || '';
-            const lastName = formData.get('lastName') || '';
-            formData.set('doctorName', `${firstName} ${lastName}`.trim());
-            
             // Collect checked procedures
             const procedures = Array.from(leadForm.querySelectorAll('input[name="procedures"]:checked'))
                 .map(cb => cb.value)
