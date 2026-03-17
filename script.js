@@ -205,19 +205,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Generate a unique External ID for deduplication
                     const externalId = 'DH' + Date.now() + Math.random().toString(36).substr(2, 9);
                     
-                    // Map budget to lead value for Meta Pixel
-                    const budgetValue = formData.get('budget');
-                    let leadValue = 50; // Default base value
-                    if (budgetValue === 'KES 150,000 - KES 300,000') leadValue = 150;
-                    if (budgetValue === 'KES 300,000+') leadValue = 300;
-
-                    // Trigger Lead event for Meta Pixel with value and deduplication ID
+                    // Trigger Lead event for Meta Pixel with deduplication ID
                     if (typeof fbq === 'function') {
                         fbq('track', 'Lead', {
                             content_name: 'Strategy Call Request',
                             content_category: 'Lead Capture',
-                            value: leadValue,
-                            currency: 'USD', // Meta usually prefers USD for global standard
                             external_id: externalId
                         });
                     }
