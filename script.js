@@ -152,16 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // Professional Email Validation
-            const email = document.getElementById('email').value.toLowerCase();
-            const freeProviders = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'icloud.com', 'aol.com', 'mail.com', 'zoho.com', 'protonmail.com', 'yandex.com'];
-            const emailDomain = email.split('@')[1];
-
-            if (freeProviders.includes(emailDomain)) {
-                formError.textContent = "Please use a professional clinic email address. Free email providers are not accepted.";
-                formError.style.display = 'block';
-                return;
-            }
 
             const phone = document.getElementById('phone').value;
             const confirmPhone = document.getElementById('confirmPhone').value;
