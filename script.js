@@ -1,14 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Helper for safe Meta Pixel tracking
     const trackPixelEvent = (event, params = {}, isCustom = false) => {
-        if (typeof fbq === 'function') {
-            if (isCustom) {
-                fbq('trackCustom', event, params);
-            } else {
-                fbq('track', event, params);
-            }
+        if (typeof window.fbq === 'function') {
+            window.fbq(isCustom ? 'trackCustom' : 'track', event, params);
         } else {
-            console.debug(`[Pixel Mock] ${isCustom ? 'trackCustom' : 'track'}: ${event}`, params);
+            console.debug(`[Pixel Debug] ${event} - fbq not found`);
         }
     };
 
@@ -270,8 +266,11 @@ function playVideo(container) {
 
     if (!vslLightbox || !vslExpandedContent || !originalIframe) return;
 
-    // Track VSL engagement
-    trackPixelEvent('WatchVSL', { content_name: 'VSL Playback' }, true);
+    // Track VSL engagement as a standard ViewContent event for better visibility
+    trackPixelEvent('ViewContent', { 
+        content_name: 'VSL Playback',
+        content_category: 'Engagement'
+    });
 
     // Hide the play button overlay on the main page
     container.classList.add('playing');
