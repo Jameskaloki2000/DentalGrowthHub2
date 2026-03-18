@@ -237,7 +237,7 @@
             fn: urlParams.get('fn')?.toLowerCase().trim(),
             ln: urlParams.get('ln')?.toLowerCase().trim(),
             ph: urlParams.get('ph')?.replace(/[^0-9]/g, ''),
-            external_id: urlParams.get('external_id')
+            external_id: urlParams.get('external_id') || 'anon_' + Date.now()
         };
 
         !function(f,b,e,v,n,t,s)
@@ -252,10 +252,16 @@
         fbq('init', '1274963728058332', userData);
         fbq('track', 'PageView');
         
-        if (userData.external_id) {
-            fbq('track', 'CompleteRegistration', { external_id: userData.external_id });
-            fbq('track', 'Schedule', { external_id: userData.external_id });
-        }
+        // Ensure CompleteRegistration fires as the primary conversion
+        fbq('track', 'CompleteRegistration', { 
+            content_name: 'Success Page Reach',
+            external_id: userData.external_id 
+        });
+        
+        // Also track as Schedule for redundancy
+        fbq('track', 'Schedule', { 
+            external_id: userData.external_id 
+        });
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1274963728058332&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel Code -->
