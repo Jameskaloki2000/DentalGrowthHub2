@@ -10,15 +10,24 @@
     <link rel="canonical" href="https://dentalgrowthhub.co/thankyou.html" />
     <meta http-equiv="Content-Security-Policy"
         content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com https://unpkg.com; frame-src 'self' https://calendar.google.com https://www.youtube.com https://player.vimeo.com; connect-src 'self' https://www.facebook.com; img-src 'self' data: https://www.facebook.com;">
-    <!-- Google Fonts -->
+    <!-- Resource Hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://unpkg.com">
     <link rel="preconnect" href="https://calendar.google.com">
-    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <link rel="dns-prefetch" href="https://calendar.google.com">
+    <link rel="dns-prefetch" href="https://connect.facebook.net">
+    <link rel="dns-prefetch" href="https://unpkg.com">
 
-    <link rel="stylesheet" href="styles.css">
+    <!-- Preloads -->
+    <link rel="preload" as="image" href="Assets/logo.png" fetchpriority="high">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="styles.css"></noscript>
+
+    <!-- External Scripts (Deferred) -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1" defer></script>
     <style>
         :root {
             --step-active: var(--gold-solid);

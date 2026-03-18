@@ -1,4 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Helper for safe Meta Pixel tracking
+    const trackPixelEvent = (event, params = {}, isCustom = false) => {
+        if (typeof fbq === 'function') {
+            if (isCustom) {
+                fbq('trackCustom', event, params);
+            } else {
+                fbq('track', event, params);
+            }
+        } else {
+            console.debug(`[Pixel Mock] ${isCustom ? 'trackCustom' : 'track'}: ${event}`, params);
+        }
+    };
+
     // Set current year in footer
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -117,6 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelectorAll('.open-lead-modal').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
+                trackPixelEvent('Contact', { 
+                    content_name: 'Lead Button Click',
+                    button_location: btn.innerText || 'CTA Button'
+                });
                 leadModal.classList.add('active');
             });
         });
@@ -214,13 +231,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     const externalId = 'DH' + Date.now() + Math.random().toString(36).substr(2, 9);
                     
                     // Trigger Lead event for Meta Pixel with deduplication ID
-                    if (typeof fbq === 'function') {
-                        fbq('track', 'Lead', {
-                            content_name: 'Strategy Call Request',
-                            content_category: 'Lead Capture',
-                            external_id: externalId
-                        });
-                    }
+                    trackPixelEvent('Lead', {
+                        content_name: 'Strategy Call Request',
+                        content_category: 'Lead Capture',
+                        external_id: externalId
+                    });
 
                     // Prepare Advanced Matching data for thankyou.html
                     const am = new URLSearchParams();
@@ -230,10 +245,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     am.append('ph', formData.get('phone'));
                     am.append('external_id', externalId);
 
-                    // Delay redirect to ensure Meta Pixel and network request finish
+                    // Delay redirect slightly to ensure Meta Pixel and network request finish
                     setTimeout(() => {
                         window.location.href = `thankyou.html?${am.toString()}`;
-                    }, 500);
+                    }, 300);
                 })
                 .catch(error => {
                     console.error('Network error:', error.message);
@@ -254,6 +269,9 @@ function playVideo(container) {
     const closeVsl = document.getElementById('closeVsl');
 
     if (!vslLightbox || !vslExpandedContent || !originalIframe) return;
+
+    // Track VSL engagement
+    trackPixelEvent('WatchVSL', { content_name: 'VSL Playback' }, true);
 
     // Hide the play button overlay on the main page
     container.classList.add('playing');
