@@ -101,10 +101,18 @@
         const urlParams = new URLSearchParams(window.location.search);
         const testEventCode = urlParams.get('test_event_code');
         
+        let savedUserData = {};
+        try {
+            const stored = localStorage.getItem('dgh_user_data');
+            if (stored) {
+                savedUserData = JSON.parse(stored);
+            }
+        } catch(e) {}
+        
         if (testEventCode) {
-            fbq('init', '1274963728058332', {}, { test_event_code: testEventCode });
+            fbq('init', '1274963728058332', savedUserData, { test_event_code: testEventCode });
         } else {
-            fbq('init', '1274963728058332');
+            fbq('init', '1274963728058332', savedUserData);
         }
         
         fbq('track', 'PageView');
@@ -543,7 +551,14 @@
                 </div>
                 <div class="form-group">
                     <label for="revenueGoals">Current monthly revenue vs 6-month goal?</label>
-                    <input type="text" id="revenueGoals" name="revenueGoals" required placeholder="e.g. KES 500k now, want KES 3M">
+                    <select id="revenueGoals" name="revenueGoals" required style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); font-family: inherit;">
+                        <option value="" disabled selected>Select revenue range</option>
+                        <option value="Under KES 500,000">Under KES 500,000 (Growth Phase)</option>
+                        <option value="KES 500,000 - KES 1,500,000">KES 500,000 - KES 1,500,000 (Established)</option>
+                        <option value="KES 1,500,000 - KES 3,000,000">KES 1,500,000 - KES 3,000,000 (High-Volume)</option>
+                        <option value="KES 3,000,000 - KES 5,000,000">KES 3,000,000 - KES 5,000,000 (Premium Practice)</option>
+                        <option value="Above KES 5,000,000">Above KES 5,000,000 (Elite / Multi-location)</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="budget">Allocated monthly budget for patient acquisition?</label>

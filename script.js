@@ -228,8 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then(() => {
                     console.log('Submission successful (no-cors response received)');
                     
-                    // Generate a unique External ID for deduplication
-                    const externalId = 'DH' + Date.now() + Math.random().toString(36).substr(2, 9);
+                    // Generate or retrieve a unique External ID for deduplication
+                    let externalId = localStorage.getItem('dgh_external_id');
+                    if (!externalId) {
+                        externalId = 'DH' + Date.now() + Math.random().toString(36).substr(2, 9);
+                        localStorage.setItem('dgh_external_id', externalId);
+                    }
                     
                     // --- Lead Suppression Logic ---
                     // Only trigger Lead event if it hasn't been sent in this session/browser
@@ -243,12 +247,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
 
                     // Prepare Advanced Matching data for thankyou.html
+                    const email = formData.get('email') || '';
+                    const firstName = formData.get('firstName') || '';
+                    const lastName = formData.get('lastName') || '';
+                    const phone = formData.get('phone') || '';
+                    
                     const am = new URLSearchParams();
-                    am.append('em', formData.get('email'));
-                    am.append('fn', formData.get('firstName'));
-                    am.append('ln', formData.get('lastName'));
-                    am.append('ph', formData.get('phone'));
+                    am.append('em', email);
+                    am.append('fn', firstName);
+                    am.append('ln', lastName);
+                    am.append('ph', phone);
                     am.append('external_id', externalId);
+                    
+                    // Save advanced matching data for cross-page identification
+                    try {
+                        localStorage.setItem('dgh_user_data', JSON.stringify({
+                            em: email.toLowerCase().trim(),
+                            fn: firstName.toLowerCase().trim(),
+                            ln: lastName.toLowerCase().trim(),
+                            ph: phone.replace(/[^0-9]/g, ''),
+                            external_id: externalId
+                        }));
+                    } catch(e) {}
 
                     // Delay redirect slightly to ensure Meta Pixel and network request finish
                     setTimeout(() => {

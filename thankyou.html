@@ -233,12 +233,19 @@
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const testEventCode = urlParams.get('test_event_code');
+        
+        let storedUserData = {};
+        try {
+            const data = localStorage.getItem('dgh_user_data');
+            if (data) storedUserData = JSON.parse(data);
+        } catch(e) {}
+
         const userData = {
-            em: urlParams.get('em')?.toLowerCase().trim(),
-            fn: urlParams.get('fn')?.toLowerCase().trim(),
-            ln: urlParams.get('ln')?.toLowerCase().trim(),
-            ph: urlParams.get('ph')?.replace(/[^0-9]/g, ''),
-            external_id: urlParams.get('external_id') || 'anon_' + Date.now()
+            em: urlParams.get('em')?.toLowerCase().trim() || storedUserData.em,
+            fn: urlParams.get('fn')?.toLowerCase().trim() || storedUserData.fn,
+            ln: urlParams.get('ln')?.toLowerCase().trim() || storedUserData.ln,
+            ph: urlParams.get('ph')?.replace(/[^0-9]/g, '') || storedUserData.ph,
+            external_id: urlParams.get('external_id') || storedUserData.external_id || localStorage.getItem('dgh_external_id') || 'anon_' + Date.now()
         };
 
         !function(f,b,e,v,n,t,s)
