@@ -96,7 +96,17 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1274963728058332');
+
+        // Check for test_event_code in URL for debugging
+        const urlParams = new URLSearchParams(window.location.search);
+        const testEventCode = urlParams.get('test_event_code');
+        
+        if (testEventCode) {
+            fbq('init', '1274963728058332', {}, { test_event_code: testEventCode });
+        } else {
+            fbq('init', '1274963728058332');
+        }
+        
         fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1274963728058332&ev=PageView&noscript=1"/></noscript>

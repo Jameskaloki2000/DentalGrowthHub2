@@ -2,6 +2,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Helper for safe Meta Pixel tracking
     const trackPixelEvent = (event, params = {}, isCustom = false) => {
         if (typeof window.fbq === 'function') {
+            // Check for test_event_code in URL for debugging/Events Manager testing
+            const testCode = new URLSearchParams(window.location.search).get('test_event_code');
+            if (testCode) {
+                params.test_event_code = testCode;
+            }
             window.fbq(isCustom ? 'trackCustom' : 'track', event, params);
         } else {
             console.debug(`[Pixel Debug] ${event} - fbq not found`);
@@ -226,12 +231,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Generate a unique External ID for deduplication
                     const externalId = 'DH' + Date.now() + Math.random().toString(36).substr(2, 9);
                     
-                    // Trigger Lead event for Meta Pixel with deduplication ID
-                    trackPixelEvent('Lead', {
-                        content_name: 'Strategy Call Request',
-                        content_category: 'Lead Capture',
-                        external_id: externalId
-                    });
+                    // --- Lead Suppression Logic ---
+                    // Only trigger Lead event if it hasn't been sent in this session/browser
+                    if (!localStorage.getItem('dgh_lead_sent')) {
+                        trackPixelEvent('Lead', {
+                            content_name: 'Strategy Call Request',
+                            content_category: 'Lead Capture',
+                            external_id: externalId
+                        });
+                        localStorage.setItem('dgh_lead_sent', 'true');
+                    }
 
                     // Prepare Advanced Matching data for thankyou.html
                     const am = new URLSearchParams();

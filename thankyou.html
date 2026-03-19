@@ -232,6 +232,7 @@
     <!-- Meta Pixel Code -->
     <script>
         const urlParams = new URLSearchParams(window.location.search);
+        const testEventCode = urlParams.get('test_event_code');
         const userData = {
             em: urlParams.get('em')?.toLowerCase().trim(),
             fn: urlParams.get('fn')?.toLowerCase().trim(),
@@ -249,19 +250,36 @@
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
         
-        fbq('init', '1274963728058332', userData);
+        if (testEventCode) {
+            fbq('init', '1274963728058332', userData, { test_event_code: testEventCode });
+        } else {
+            fbq('init', '1274963728058332', userData);
+        }
+        
         fbq('track', 'PageView');
         
-        // Ensure CompleteRegistration fires as the primary conversion
-        fbq('track', 'CompleteRegistration', { 
-            content_name: 'Success Page Reach',
-            external_id: userData.external_id 
-        });
+        // --- Conversion Suppression Logic ---
+        // Prevents duplicate firing of the conversion event if the user refreshes the page
+        const hasScheduled = localStorage.getItem('dgh_scheduled');
         
-        // Also track as Schedule for redundancy
-        fbq('track', 'Schedule', { 
-            external_id: userData.external_id 
-        });
+        if (!hasScheduled) {
+            // Ensure CompleteRegistration fires as the primary conversion
+            fbq('track', 'CompleteRegistration', { 
+                content_name: 'Success Page Reach',
+                external_id: userData.external_id 
+            });
+            
+            // Also track as Schedule for redundancy
+            fbq('track', 'Schedule', { 
+                external_id: userData.external_id 
+            });
+
+            // Mark as scheduled so it doesn't fire again on refresh
+            localStorage.setItem('dgh_scheduled', 'true');
+            console.log('[Pixel] Conversion events tracked and suppressed for future refreshes.');
+        } else {
+            console.log('[Pixel] Conversion already tracked for this visitor. Skipping duplicate events.');
+        }
     </script>
     <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1274963728058332&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel Code -->
