@@ -886,22 +886,21 @@ function playVideo(container) {
         vslExpandedContent.innerHTML = ''; // Stop video
         closeVsl.removeEventListener('click', closeHandler);
         vslLightbox.removeEventListener('click', backdropHandler);
+        document.removeEventListener('keydown', escHandler);
     };
 
     const backdropHandler = (e) => {
         if (e.target === vslLightbox) closeHandler();
     };
 
+    const escHandler = (e) => {
+        if (e.key === 'Escape') closeHandler();
+    };
+
     closeVsl.addEventListener('click', closeHandler);
     vslLightbox.addEventListener('click', backdropHandler);
-
-    // Escape key to close
-    document.addEventListener('keydown', function escHandler(e) {
-        if (e.key === 'Escape') {
-            closeHandler();
-            document.removeEventListener('keydown', escHandler);
-        }
-    });
+    document.addEventListener('keydown', escHandler);
+    
     } catch (error) {
         console.error("Error in playVideo:", error);
     }

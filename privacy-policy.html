@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Privacy Policy | Dental Growth Hub</title>
     <link rel="icon" type="image/png" href="Assets/logo.png">
+    <link rel="preload" as="image" href="Assets/logo.png" fetchpriority="high">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,11 +72,12 @@
         fbq('init', '1274963728058332');
         fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1274963728058332&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel Code -->
 </head>
 
 <body>
+    <!-- Meta Pixel Noscript Fallback -->
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1274963728058332&ev=PageView&noscript=1"/></noscript>
     <!-- Subtle Ambient Glows -->
     <div class="ambient-glow glow-top-left"></div>
     <div class="ambient-glow glow-bottom-right"></div>
@@ -84,7 +86,7 @@
     <nav class="navbar" style="background: rgba(14, 14, 14, 0.95); backdrop-filter: blur(10px);">
         <div class="container nav-container">
             <a href="index.html" class="logo">
-                <img src="Assets/logo.png" alt="Dental Growth Hub" class="logo-img">
+                <img src="Assets/logo.png" alt="Dental Growth Hub" class="logo-img" decoding="async">
             </a>
             <div class="nav-links">
                 <a href="index.html" class="btn btn-secondary btn-sm nav-cta">Back to Home</a>
@@ -141,7 +143,7 @@
     <footer class="footer">
         <div class="container footer-container">
             <a href="index.html" class="logo">
-                <img src="Assets/logo.png" alt="Dental Growth Hub" class="logo-img">
+                <img src="Assets/logo.png" alt="Dental Growth Hub" class="logo-img" decoding="async">
             </a>
             <p class="copyright">&copy; <span id="year"></span> Dental Growth Hub. All rights reserved.</p>
         </div>
