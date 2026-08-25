@@ -13,17 +13,19 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 
 
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dental Growth Hub | AI Lead Generation for Dentists">
+    <meta name="twitter:description" content="Get 10+ high-ticket patients monthly with our guaranteed AI system.">
+    <meta name="twitter:image" content="https://dentalgrowthhub.co/Assets/og-image.jpg">
+
     <!-- Open Graph / Social -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Dental Growth Hub | AI Lead Generation for Dentists">
     <meta property="og:description"
         content="AI-driven lead generation exclusively for cosmetic dentists & orthodontists. Get 10+ high-ticket patients monthly with our guaranteed system.">
     <meta property="og:url" content="https://dentalgrowthhub.co/">
+    <meta property="og:image" content="https://dentalgrowthhub.co/Assets/og-image.jpg">
     <meta property="og:site_name" content="Dental Growth Hub">
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Dental Growth Hub | AI Lead Generation for Dentists">
-    <meta name="twitter:description" content="Get 10+ high-ticket patients monthly with our guaranteed AI system.">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -68,23 +70,22 @@
         .nav-container { display: flex; justify-content: space-between; align-items: center; height: 100%; }
         .logo-img { height: 60px; width: auto; display: block; }
         .hero { padding: var(--sp-20) 0 var(--sp-12); text-align: center; }
-        .hero-title { font-size: clamp(2.5rem, 8vw, 4.5rem); margin-bottom: var(--sp-4); line-height: 1.05; background: linear-gradient(to bottom right, #FFFFFF, #B0B5C0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+        .hero-title { font-size: clamp(2.5rem, 8vw, 4.5rem); margin-bottom: var(--sp-4); line-height: 1.05; background: linear-gradient(to bottom right, #FFFFFF, #B0B5C0); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
         .btn { display: inline-flex; align-items: center; justify-content: center; padding: 14px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: var(--trans-base); border: none; text-decoration: none; }
         .btn-primary { background: linear-gradient(135deg, var(--gold-start), var(--gold-end)); color: #000; }
         .btn-lg { padding: 18px 32px; font-size: 1.05rem; }
         .ambient-glow { position: fixed; width: 600px; height: 600px; z-index: -1; pointer-events: none; }
         .glow-top-left { top: -200px; left: -200px; background: radial-gradient(circle, rgba(20, 35, 65, 0.4) 0%, rgba(10, 14, 20, 0) 70%); }
-        .text-gold { background: linear-gradient(135deg, var(--gold-start) 0%, var(--gold-end) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gold { background: linear-gradient(135deg, var(--gold-start) 0%, var(--gold-end) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
     </style>
 
-    <!-- Main Stylesheet (Deferred loading) -->
-    <link rel="preload" href="styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="styles.css"></noscript>
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
 
-    <!-- External Scripts (Deferred) -->
-    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1" defer></script>
+    <!-- External Scripts (Async) -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1" async></script>
     
     <!-- Meta Pixel Code -->
     <script>
@@ -97,16 +98,33 @@
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
 
-        // Check for test_event_code in URL for debugging
         const urlParams = new URLSearchParams(window.location.search);
         const testEventCode = urlParams.get('test_event_code');
         
+        // Capture UTMs and fbclid
+        const trackingParams = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'fbclid'];
+        let hasNewParams = false;
+        
+        let storedTracking = {};
+        try {
+            storedTracking = JSON.parse(localStorage.getItem('dgh_tracking_params') || '{}');
+        } catch(e) {}
+
+        trackingParams.forEach(param => {
+            if (urlParams.has(param)) {
+                storedTracking[param] = urlParams.get(param);
+                hasNewParams = true;
+            }
+        });
+        
+        if (hasNewParams) {
+            localStorage.setItem('dgh_tracking_params', JSON.stringify(storedTracking));
+        }
+
         let savedUserData = {};
         try {
-            const stored = localStorage.getItem('dgh_user_data');
-            if (stored) {
-                savedUserData = JSON.parse(stored);
-            }
+            const storedUser = localStorage.getItem('dgh_user_data');
+            if (storedUser) savedUserData = JSON.parse(storedUser);
         } catch(e) {}
         
         if (testEventCode) {
@@ -117,11 +135,12 @@
         
         fbq('track', 'PageView');
     </script>
-    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1274963728058332&ev=PageView&noscript=1"/></noscript>
     <!-- End Meta Pixel Code -->
 </head>
 
 <body>
+    <!-- Meta Pixel Noscript Fallback -->
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1274963728058332&ev=PageView&noscript=1"/></noscript>
     <!-- Subtle Ambient Glows -->
     <div class="ambient-glow glow-top-left"></div>
     <div class="ambient-glow glow-bottom-right"></div>
@@ -150,7 +169,7 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="container hero-container">
-            <div class="hero-content reveal">
+            <div class="hero-content">
                 <p class="section-label">WHY CHOOSE US</p>
                 <h1 class="hero-title">Get 10 to 15+ High-Ticket Patients Seeking <span class="text-gold">Cosmetic
                         Dental Treatments</span></h1>
@@ -161,18 +180,18 @@
                 </div>
 
                 <!-- VSL Video Wrapper -->
-                <div class="reveal" style="transition-delay: 0.05s; margin-bottom: 1.5rem;">
+                <div style="margin-bottom: 1.5rem;">
                     <h3 style="font-size: 1.25rem; font-weight: 500; color: var(--text-main);">Learn how we do it <i
                             class="ph ph-arrow-down text-gold-solid"
                             style="vertical-align: middle; margin-left: 4px;"></i></h3>
                 </div>
-                <div class="vsl-wrapper reveal" style="transition-delay: 0.1s">
-                        <div class="video-container" onclick="playVideo(this)">
-                            <img src="Assets/vsl_v2.jpg" class="video-placeholder" alt="VSL Placeholder" loading="lazy">
+                <div class="vsl-wrapper">
+                        <div class="video-container" onclick="playVideo(this)" data-video-src="https://player.vimeo.com/video/1172054530?autoplay=1&badge=0&autopause=0&player_id=0&app_id=58479">
+                            <div style="position: absolute; inset: 0; z-index: 20; cursor: pointer;"></div>
+                            <img src="Assets/vsl_v2.jpg" class="video-placeholder" alt="VSL Placeholder" fetchpriority="high">
                             <div class="play-button">
                                 <i class="ph-fill ph-play"></i>
                             </div>
-                            <iframe id="vsl-iframe" src="https://player.vimeo.com/video/1172054530?autoplay=0&badge=0&autopause=0&player_id=0&app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;top:0;left:0;width:100%;height:100%;border-radius:12px;z-index:1;" title="VSL_V2" allowfullscreen loading="lazy"></iframe>
                         </div>
                 </div>
             </div>
@@ -439,7 +458,7 @@
                     <i class="ph ph-calendar-check text-gold-solid" style="font-size: 4rem; margin-bottom: var(--sp-4); display: block;"></i>
                     <h3 style="font-size: 1.75rem; margin-bottom: var(--sp-3);">Ready to See the Calendar?</h3>
                     <p class="text-muted" style="margin-bottom: var(--sp-6);">Fill out our 30-second application to verify your clinic and get instant access to our strategy call calendar.</p>
-                    <button class="btn btn-primary btn-lg open-lead-modal" style="width: 100%;">Apply Now to Book Call</button>
+                    <button type="button" class="btn btn-primary btn-lg open-lead-modal" style="width: 100%;">Apply Now to Book Call</button>
                 </div>
 
                 <div class="contact-details mt-5" style="text-align: center;">
@@ -484,102 +503,268 @@
                 <h3>Request Strategy Call</h3>
                 <p class="text-muted">Please provide your details before proceeding so we can easily contact you.</p>
             </div>
-            <form id="leadForm" class="lead-form">
-                <div class="form-row" style="display: flex; gap: 12px; margin-bottom: 12px;">
-                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required placeholder="Jane">
+            <form id="leadForm" class="lead-form multi-step-form">
+                <!-- Progress Indicator -->
+                <div class="form-progress" id="formProgress">
+                    <span id="step-indicator">Step 1 of 7</span>
+                    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 14%;"></div></div>
+                </div>
+                
+                <div class="form-steps-wrapper" id="formStepsWrapper">
+                <!-- Step 1: Role -->
+                <div class="form-step active" data-step="1">
+                    <h4 style="margin-bottom: 20px;">What is your role at the practice?</h4>
+                    <div class="options-grid">
+                        <label class="radio-card"><input type="radio" name="role" value="Owner / Founder"> <span>Owner / Founder</span></label>
+                        <label class="radio-card"><input type="radio" name="role" value="Partner"> <span>Partner</span></label>
+                        <label class="radio-card"><input type="radio" name="role" value="Practice Manager"> <span>Practice Manager</span></label>
+                        <label class="radio-card"><input type="radio" name="role" value="Marketing / Growth Manager"> <span>Marketing / Growth Manager</span></label>
+                        <label class="radio-card"><input type="radio" name="role" value="Dentist with marketing decision-making authority"> <span>Dentist with marketing decision-making authority</span></label>
+                        <label class="radio-card"><input type="radio" name="role" value="Associate Dentist"> <span>Associate Dentist</span></label>
+                        <label class="radio-card"><input type="radio" name="role" value="Other"> <span>Other</span></label>
                     </div>
-                    <div class="form-group" style="flex: 1; margin-bottom: 0;">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" required placeholder="Doe">
+                    
+                    <!-- Conditional for Other -->
+                    <div id="role-other-conditional" style="display: none; margin-top: 20px;">
+                        <h4 style="margin-bottom: 12px; font-size: 1.05rem;">Are you involved in deciding or approving the practice\'s marketing budget?</h4>
+                        <div class="options-grid">
+                            <label class="radio-card"><input type="radio" name="role_budget_authority" value="Yes"> <span>Yes</span></label>
+                            <label class="radio-card"><input type="radio" name="role_budget_authority" value="No"> <span>No</span></label>
+                            <label class="radio-card"><input type="radio" name="role_budget_authority" value="Not sure"> <span>Not sure</span></label>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required placeholder="doctor@clinic.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" name="phone" required placeholder="+254 700 000000">
-                </div>
-                <div class="form-group">
-                    <label for="confirmPhone">Confirm Phone Number</label>
-                    <input type="tel" id="confirmPhone" name="confirmPhone" required placeholder="+254 700 000000">
-                </div>
-                <div class="form-group">
-                    <label for="clinicNameDisplay">Clinic Name</label>
-                    <input type="text" id="clinicNameDisplay" name="clinicName" required placeholder="e.g. Modern Smiles Dental">
-                </div>
-                <div class="form-group">
-                    <label for="clinicWebsite">Clinic Website URL (Optional)</label>
-                    <input type="text" id="clinicWebsite" name="clinicWebsite" placeholder="https://practice.com">
-                </div>
-                <div class="form-group">
-                    <label for="role">What is your role at the practice?</label>
-                    <select id="role" name="role" required style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); font-family: inherit;">
-                        <option value="" disabled selected>Select your role</option>
-                        <option value="Owner / Founder">Owner / Founder</option>
-                        <option value="Partner">Partner</option>
-                        <option value="Associate Dentist">Associate Dentist</option>
-                        <option value="Practice Manager">Practice Manager</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>High-ticket procedures you want to book:</label>
-                    <div class="checkbox-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 12px; background: rgba(255, 255, 255, 0.03); border-radius: 8px;">
-                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
-                            <input type="checkbox" name="procedures" value="Veneers & Smile Makeovers"> Veneers & Smile Makeovers
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
-                            <input type="checkbox" name="procedures" value="Dental Implants"> Dental Implants
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
-                            <input type="checkbox" name="procedures" value="Teeth Whitening"> Teeth Whitening
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
-                            <input type="checkbox" name="procedures" value="Cosmetic Bonding"> Cosmetic Bonding
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
-                            <input type="checkbox" name="procedures" value="Orthodontics"> Orthodontics
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
-                            <input type="checkbox" name="procedures" value="Mouth Restoration"> Mouth Restoration
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="revenueGoals">Current monthly revenue vs 6-month goal?</label>
-                    <select id="revenueGoals" name="revenueGoals" required style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); font-family: inherit;">
-                        <option value="" disabled selected>Select revenue range</option>
-                        <option value="Under KES 500,000">Under KES 500,000 (Growth Phase)</option>
-                        <option value="KES 500,000 - KES 1,500,000">KES 500,000 - KES 1,500,000 (Established)</option>
-                        <option value="KES 1,500,000 - KES 3,000,000">KES 1,500,000 - KES 3,000,000 (High-Volume)</option>
-                        <option value="KES 3,000,000 - KES 5,000,000">KES 3,000,000 - KES 5,000,000 (Premium Practice)</option>
-                        <option value="Above KES 5,000,000">Above KES 5,000,000 (Elite / Multi-location)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="budget">Allocated monthly budget for patient acquisition?</label>
-                    <select id="budget" name="budget" required style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text-main); font-family: inherit;">
-                        <option value="" disabled selected>Select budget range</option>
-                        <option value="Under KES 50,000">Under KES 50,000</option>
-                        <option value="KES 50,000 - KES 150,000">KES 50,000 - KES 150,000</option>
-                        <option value="KES 150,000 - KES 300,000">KES 150,000 - KES 300,000</option>
-                        <option value="KES 300,000+">KES 300,000+</option>
-                    </select>
+                    <button type="button" class="btn btn-primary btn-next mt-4 btn-lg" style="width: 100%;" disabled>Next <i class="ph ph-arrow-right"></i></button>
                 </div>
 
-                <!-- Honeypot Field -->
-                <div class="form-group" style="display:none;" aria-hidden="true">
-                    <label for="website_url">Leave this field blank</label>
-                    <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+                <!-- Step 2: Clinic Info -->
+                <div class="form-step" data-step="2">
+                    <h4 style="margin-bottom: 12px;">What is your clinic's name?</h4>
+                    <div class="form-group">
+                        <input type="text" name="clinicName" required placeholder="e.g. Modern Smiles Dental">
+                    </div>
+                    
+                    <h4 class="mt-4" style="margin-bottom: 8px;">Where can we learn more about your practice?</h4>
+                    <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 12px;">Website or Instagram (This helps us understand your practice before the strategy call)</p>
+                    <div class="form-group">
+                        <input type="text" name="clinicWebsite" required placeholder="https://practice.com or @instagram">
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="button" class="btn btn-secondary btn-prev btn-lg" style="flex: 1;"><i class="ph ph-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary btn-next btn-lg" style="flex: 2;" disabled>Next <i class="ph ph-arrow-right"></i></button>
+                    </div>
                 </div>
 
-                <div id="formError" class="form-error"
-                    style="display: none; color: #ff6b6b; margin-bottom: 12px; font-size: 0.9rem;"></div>
-                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">Go Book</button>
+                <!-- Step 3: High-Ticket Services -->
+                <div class="form-step" data-step="3">
+                    <h4 style="margin-bottom: 8px;">Which treatments do you most want to grow?</h4>
+                    <p class="text-muted" style="font-size: 0.9rem; margin-bottom: 16px;">Select up to 3.</p>
+                    <div class="options-grid checkbox-grid">
+                        <label class="checkbox-card"><input type="checkbox" name="procedures" value="Dental Implants"> <span>Dental Implants</span></label>
+                        <label class="checkbox-card"><input type="checkbox" name="procedures" value="Invisalign / Clear Aligners"> <span>Invisalign / Clear Aligners</span></label>
+                        <label class="checkbox-card"><input type="checkbox" name="procedures" value="Braces / Orthodontics"> <span>Braces / Orthodontics</span></label>
+                        <label class="checkbox-card"><input type="checkbox" name="procedures" value="Veneers / Smile Makeovers"> <span>Veneers / Smile Makeovers</span></label>
+                        <label class="checkbox-card"><input type="checkbox" name="procedures" value="Teeth Whitening"> <span>Teeth Whitening</span></label>
+                        <label class="checkbox-card"><input type="checkbox" name="procedures" value="Cosmetic Bonding"> <span>Cosmetic Bonding</span></label>
+                        <label class="checkbox-card"><input type="checkbox" name="procedures" value="Full-Mouth Restoration"> <span>Full-Mouth Restoration</span></label>
+                        <label class="checkbox-card"><input type="checkbox" name="procedures" value="Other"> <span>Other</span></label>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="button" class="btn btn-secondary btn-prev btn-lg" style="flex: 1;"><i class="ph ph-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary btn-next btn-lg" style="flex: 2;" disabled>Next <i class="ph ph-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 4: Practice Revenue -->
+                <div class="form-step" data-step="4">
+                    <h4 style="margin-bottom: 20px;">Approximately how much revenue does your practice generate per month?</h4>
+                    <div class="options-grid">
+                        <label class="radio-card"><input type="radio" name="revenueGoals" value="Under KES 500,000"> <span>Under KES 500,000</span></label>
+                        <label class="radio-card"><input type="radio" name="revenueGoals" value="KES 500,000 – KES 1,000,000"> <span>KES 500,000 – KES 1,000,000</span></label>
+                        <label class="radio-card"><input type="radio" name="revenueGoals" value="KES 1,000,000 – KES 2,500,000"> <span>KES 1,000,000 – KES 2,500,000</span></label>
+                        <label class="radio-card"><input type="radio" name="revenueGoals" value="KES 2,500,000 – KES 5,000,000"> <span>KES 2,500,000 – KES 5,000,000</span></label>
+                        <label class="radio-card"><input type="radio" name="revenueGoals" value="KES 5,000,000+"> <span>KES 5,000,000+</span></label>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="button" class="btn btn-secondary btn-prev btn-lg" style="flex: 1;"><i class="ph ph-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary btn-next btn-lg" style="flex: 2;" disabled>Next <i class="ph ph-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                
+                <!-- Step 5: Growth Intent -->
+                <div class="form-step" data-step="5">
+                    <h4 style="margin-bottom: 20px;">How serious are you about growing your practice over the next 90 days?</h4>
+                    <div class="options-grid">
+                        <label class="radio-card"><input type="radio" name="growth_intent" value="VERY SERIOUS"> <span>Very serious — we're actively looking for more patients</span></label>
+                        <label class="radio-card"><input type="radio" name="growth_intent" value="SERIOUS"> <span>Serious — we'd like to grow but haven't decided how</span></label>
+                        <label class="radio-card"><input type="radio" name="growth_intent" value="EXPLORING"> <span>We're exploring our options</span></label>
+                        <label class="radio-card"><input type="radio" name="growth_intent" value="NOT CURRENTLY FOCUSED ON GROWTH"> <span>We're not currently focused on growth</span></label>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="button" class="btn btn-secondary btn-prev btn-lg" style="flex: 1;"><i class="ph ph-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary btn-next btn-lg" style="flex: 2;" disabled>Next <i class="ph ph-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 6: Acquisition Budget -->
+                <div class="form-step" data-step="6">
+                    <h4 style="margin-bottom: 20px;">How much are you currently prepared to invest each month to acquire new patients?</h4>
+                    <div class="options-grid">
+                        <label class="radio-card"><input type="radio" name="budget" value="Under KES 50,000"> <span>Under KES 50,000</span></label>
+                        <label class="radio-card"><input type="radio" name="budget" value="KES 50,000 – KES 100,000"> <span>KES 50,000 – KES 100,000</span></label>
+                        <label class="radio-card"><input type="radio" name="budget" value="KES 100,000 – KES 250,000"> <span>KES 100,000 – KES 250,000</span></label>
+                        <label class="radio-card"><input type="radio" name="budget" value="KES 250,000 – KES 500,000"> <span>KES 250,000 – KES 500,000</span></label>
+                        <label class="radio-card"><input type="radio" name="budget" value="KES 500,000+"> <span>KES 500,000+</span></label>
+                    </div>
+
+                    <!-- Conditional if Under 50k -->
+                    <div id="budget-increase-conditional" style="display: none; margin-top: 20px;">
+                        <h4 style="margin-bottom: 12px; font-size: 1.05rem;">If the economics make sense, would you be willing to increase your patient-acquisition budget?</h4>
+                        <div class="options-grid">
+                            <label class="radio-card"><input type="radio" name="budget_increase" value="Yes"> <span>Yes</span></label>
+                            <label class="radio-card"><input type="radio" name="budget_increase" value="No"> <span>No</span></label>
+                            <label class="radio-card"><input type="radio" name="budget_increase" value="Not sure"> <span>Not sure</span></label>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="button" class="btn btn-secondary btn-prev btn-lg" style="flex: 1;"><i class="ph ph-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary btn-next btn-lg" style="flex: 2;" disabled>Next <i class="ph ph-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 7: Current Advertising -->
+                <div class="form-step" data-step="7">
+                    <h4 style="margin-bottom: 20px;">Are you currently using paid advertising to acquire patients?</h4>
+                    <div class="options-grid">
+                        <label class="radio-card"><input type="radio" name="current_advertising" value="Meta"> <span>Yes — Facebook / Instagram Ads</span></label>
+                        <label class="radio-card"><input type="radio" name="current_advertising" value="Google"> <span>Yes — Google Ads</span></label>
+                        <label class="radio-card"><input type="radio" name="current_advertising" value="Meta + Google"> <span>Yes — Facebook / Instagram + Google</span></label>
+                        <label class="radio-card"><input type="radio" name="current_advertising" value="Previously advertised"> <span>We have advertised before, but not currently</span></label>
+                        <label class="radio-card"><input type="radio" name="current_advertising" value="Never advertised"> <span>No — we've never used paid advertising</span></label>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="button" class="btn btn-secondary btn-prev btn-lg" style="flex: 1;"><i class="ph ph-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary btn-next btn-lg" style="flex: 2;" disabled>Next <i class="ph ph-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Step 8: Start Timeline -->
+                <div class="form-step" data-step="8">
+                    <h4 style="margin-bottom: 20px;">If we determine your practice is a good fit, when would you want to start?</h4>
+                    <div class="options-grid">
+                        <label class="radio-card"><input type="radio" name="timeline" value="Immediately"> <span>Immediately</span></label>
+                        <label class="radio-card"><input type="radio" name="timeline" value="Within 30 days"> <span>Within 30 days</span></label>
+                        <label class="radio-card"><input type="radio" name="timeline" value="Within 1–3 months"> <span>Within 1–3 months</span></label>
+                        <label class="radio-card"><input type="radio" name="timeline" value="Researching"> <span>I'm just researching</span></label>
+                        <label class="radio-card"><input type="radio" name="timeline" value="Not sure"> <span>I'm not sure yet</span></label>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button type="button" class="btn btn-secondary btn-prev btn-lg" style="flex: 1;"><i class="ph ph-arrow-left"></i> Back</button>
+                        <button type="button" class="btn btn-primary btn-submit-qualify btn-lg" style="flex: 2;" disabled>Continue <i class="ph ph-arrow-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- Result Step: Contact Details (Qualified / Manual Review) -->
+                <div class="form-step" data-step="contact">
+                    <h3 id="result-headline" style="margin-bottom: 12px; font-size: 1.75rem;">You're a potential fit.</h3>
+                    <p id="result-subheadline" class="text-muted" style="margin-bottom: 24px;">Based on your answers, your practice appears to fit the type of clinics we work with.</p>
+                    
+                    <div class="form-row" style="display: flex; gap: 12px; margin-bottom: 12px;">
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <label>First Name</label>
+                            <input type="text" id="firstName" name="firstName" required placeholder="Jane">
+                        </div>
+                        <div class="form-group" style="flex: 1; margin-bottom: 0;">
+                            <label>Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required placeholder="Doe">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Work Email</label>
+                        <input type="email" id="email" name="email" required placeholder="doctor@clinic.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone / WhatsApp Number</label>
+                        <input type="tel" id="phone" name="phone" required placeholder="+254 700 000000">
+                    </div>
+
+                                        <!-- Hidden fields to store score and classification for CRM -->
+                    <input type="hidden" name="qualificationScore" id="qualificationScore">
+                    <input type="hidden" name="leadClassification" id="leadClassification">
+                    <input type="hidden" name="qualification_reason" id="qualification_reason">
+                    <input type="hidden" name="hard_gate_result" id="hard_gate_result">
+                    <input type="hidden" name="authority_score" id="authority_score">
+                    <input type="hidden" name="practice_score" id="practice_score">
+                    <input type="hidden" name="growth_intent_score" id="growth_intent_score">
+                    <input type="hidden" name="treatment_score" id="treatment_score">
+                    <input type="hidden" name="advertising_score" id="advertising_score">
+                    <input type="hidden" name="revenue_score" id="revenue_score">
+                    <input type="hidden" name="timeline_score" id="timeline_score">
+                    <input type="hidden" name="budget_score" id="budget_score">
+
+                    <!-- Honeypot Field -->
+                    <div class="form-group" style="display:none;" aria-hidden="true">
+                        <label>Leave this field blank</label>
+                        <input type="text" id="website_url" name="website_url" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div id="formError" class="form-error" style="display: none; color: #ff6b6b; margin-bottom: 12px; font-size: 0.9rem;"></div>
+                    <button type="submit" class="btn btn-primary btn-lg mt-4" style="width: 100%;">Submit Application</button>
+                </div>
+
+                <!-- Transition Step: Processing -->
+                <div class="form-step" data-step="transition">
+                    <div style="text-align: center; padding: 32px 0;">
+                        <h3 style="margin-bottom: 24px; font-size: 1.5rem;">Reviewing your answers...</h3>
+                        <div id="transition-checklist" style="text-align: left; max-width: 250px; margin: 0 auto 32px auto; font-size: 1.1rem; color: var(--text-muted);">
+                            <div class="transition-item" style="margin-bottom: 12px; opacity: 0; transition: opacity 0.3s;"><i class="ph-bold ph-check" style="color: #4ade80; margin-right: 8px;"></i>Practice details</div>
+                            <div class="transition-item" style="margin-bottom: 12px; opacity: 0; transition: opacity 0.3s;"><i class="ph-bold ph-check" style="color: #4ade80; margin-right: 8px;"></i>Growth goals</div>
+                            <div class="transition-item" style="margin-bottom: 12px; opacity: 0; transition: opacity 0.3s;"><i class="ph-bold ph-check" style="color: #4ade80; margin-right: 8px;"></i>Patient acquisition</div>
+                        </div>
+                        <p id="transition-almost" class="text-muted" style="font-size: 1.1rem; opacity: 0; transition: opacity 0.3s;">Almost done...</p>
+                    </div>
+                </div>
+
+                <!-- Result Step: Rejection -->
+                <div class="form-step" data-step="reject">
+                    <div style="text-align: center; padding: 32px 0;">
+                        <i class="ph-fill ph-info" style="font-size: 4rem; color: var(--text-muted); margin-bottom: 24px; display: inline-block;"></i>
+                        <h3 style="margin-bottom: 16px; font-size: 1.75rem;">Thanks for your interest.</h3>
+                        <p id="reject-message" class="text-muted" style="margin-bottom: 32px; font-size: 1.1rem; max-width: 400px; margin-inline: auto;">Based on the information provided, our current program may not be the right fit for your practice yet.</p>
+                        <button type="button" class="btn btn-secondary btn-lg modal-close-btn" style="width: 100%;">Close</button>
+                    </div>
+                </div>
+
+                <!-- Result Step: Manual Review Message -->
+                <div class="form-step" data-step="manual-review-success">
+                    <div style="text-align: center; padding: 32px 0;">
+                        <i class="ph-fill ph-check-circle" style="font-size: 4rem; color: #4ade80; margin-bottom: 24px; display: inline-block;"></i>
+                        <h3 style="margin-bottom: 16px; font-size: 1.75rem;">Thanks — we'll review your practice.</h3>
+                        <p class="text-muted" style="margin-bottom: 32px; font-size: 1.1rem; max-width: 400px; margin-inline: auto;">We'd like to take a closer look at your practice before recommending the next step. We'll contact you shortly.</p>
+                        <button type="button" class="btn btn-secondary btn-lg modal-close-btn" style="width: 100%;">Close</button>
+                    </div>
+                </div>
+
+                <!-- Result Step: Calendar Inline (After Contact Submission for Qualified) -->
+                <div class="form-step" data-step="calendar">
+                    <div style="text-align: center; padding: 32px 0;">
+                        <i class="ph-fill ph-check-circle" style="font-size: 4rem; color: #4ade80; margin-bottom: 24px; display: inline-block;"></i>
+                        <h3 style="margin-bottom: 16px; font-size: 1.75rem;">You're a potential fit.</h3>
+                        <p style="margin-bottom: 12px; font-size: 1.1rem;">We've received your application.</p>
+                        
+                        <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ36wlbSLcwi" target="_blank" class="btn btn-primary btn-lg booking-cta" style="width: 100%; margin-bottom: 24px;">Book Strategy Call Now <i class="ph ph-calendar-check" style="margin-left: 8px;"></i></a>
+
+                        <p class="text-muted" style="margin-bottom: 24px; font-size: 1.1rem; max-width: 450px; margin-inline: auto;">We've also sent you an email with your booking link.</p>
+                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 16px; margin-bottom: 24px; font-family: monospace;">
+                            Sent to: <span id="display-email" style="color: var(--gold-solid);"></span>
+                        </div>
+                        <p style="font-size: 0.9rem; color: var(--text-muted); max-width: 400px; margin: 0 auto;">Check your inbox. If you don't see it within a few minutes, check your spam or promotions folder.</p>
+                        <button type="button" class="btn btn-secondary btn-lg modal-close-btn mt-4" style="width: 100%;">Close</button>
+                    </div>
+                </div>
+                </div>
             </form>
         </div>
     </div>

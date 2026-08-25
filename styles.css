@@ -107,8 +107,8 @@ img {
 .text-gold {
     background: linear-gradient(135deg, var(--gold-start) 0%, var(--gold-end) 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .text-gold-solid {
@@ -426,8 +426,8 @@ img {
     line-height: 1.05;
     background: linear-gradient(to bottom right, #FFFFFF, #B0B5C0);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .hero-subtitle {
@@ -1193,6 +1193,7 @@ section {
 .modal-overlay.active {
     opacity: 1;
     visibility: visible;
+    transition: opacity 0.4s ease, visibility 0s linear 0s;
 }
 
 .modal-content {
@@ -1403,4 +1404,109 @@ section {
         width: 40px;
         height: 40px;
     }
+}
+/* =========================================
+   Multi-Step Form Styles
+   ========================================= */
+.multi-step-form {
+    position: relative;
+    overflow: hidden; /* Hide the sliding steps outside the box */
+    min-height: 450px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-steps-wrapper {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    align-items: flex-start;
+    width: 100%;
+}
+
+.form-step {
+    flex: 0 0 100%;
+    width: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0s linear 0.5s;
+    padding: 0 4px; /* small padding so box-shadows don't clip */
+}
+
+.form-step.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease, visibility 0s linear 0s;
+}
+
+/* We hide the Next buttons for radio steps to allow auto-advance, but keep it for steps that need explicit clicking if we want. Wait, let's just keep the button there but allow auto-advance to make it seamless. */
+
+.form-progress {
+    margin-bottom: 24px;
+}
+
+#step-indicator {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--gold-solid);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold-start), var(--gold-solid));
+    transition: width 0.4s ease;
+}
+
+/* Form Options Grid */
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radio-card, .checkbox-card {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.radio-card:hover, .checkbox-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.radio-card input, .checkbox-card input {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    accent-color: var(--gold-solid);
+    cursor: pointer;
+}
+
+/* Active State for Cards */
+.radio-card:has(input:checked), .checkbox-card:has(input:checked) {
+    border-color: var(--gold-solid);
+    background: rgba(229, 169, 60, 0.1);
+}
+
+.radio-card span, .checkbox-card span {
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-main);
 }
