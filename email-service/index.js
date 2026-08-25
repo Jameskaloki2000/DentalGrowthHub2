@@ -8,168 +8,195 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const PORT = process.env.PORT || 3000;
-const EMAIL_USER = process.env.EMAIL_USER || 'onboarding@resend.dev'; // Resend requires sending from a verified domain or this test email
-const EMAIL_PASS = process.env.EMAIL_PASS || 'your-resend-api-key';
+const PORT = process.env.PORT || 3001;
+const GMAIL_USER = process.env.GMAIL_USER || '';
+const GMAIL_APP_PASSWORD = process.env.GMAIL_APP_PASSWORD || '';
 const BOOKING_URL = 'https://calendar.google.com/calendar/appointments/schedules/AcZssZ36wlbSLcwiPIYdnOzfRKPw9qYGkgEjQ7QWt-wxNy8GcDN1W9ymjXzWgIbPfiRPd_52gs226Tlt?gv=true';
 
-// In-memory store for deduplication
-// Tracks email + submission time to prevent duplicates
+// In-memory deduplication store
 const scheduledEmails = new Map();
 
-// Configure Nodemailer transporter with Resend SMTP
+// Configure Gmail SMTP transporter
 const transporter = nodemailer.createTransport({
-    host: 'smtp.resend.com',
-    secure: true,
-    port: 465,
+    service: 'gmail',
     auth: {
-        user: 'resend',
-        pass: EMAIL_PASS // The Resend API Key
+        user: GMAIL_USER,
+        pass: GMAIL_APP_PASSWORD.replace(/\s/g, '') // strip spaces from app password
     }
 });
 
-// Helper: Map treatments to natural language
+// Startup log
+const isReady = GMAIL_USER && GMAIL_APP_PASSWORD;
+console.log('\n====================================================');
+console.log('  Dental Growth Hub — Email Service (Gmail SMTP)');
+console.log(`  Mode:     ${isReady ? '✅  LIVE — sending from ' + GMAIL_USER : '⚠️  Missing credentials in .env'}`);
+console.log(`  Port:     ${PORT}`);
+console.log('====================================================\n');
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+
 const mapTreatments = (treatmentsStr) => {
     if (!treatmentsStr || treatmentsStr.trim() === '') return null;
-    
-    // Split by comma since the frontend joins them
     const rawTreatments = treatmentsStr.split(',').map(t => t.trim());
-    if (rawTreatments.length === 0) return null;
-
     const treatmentMap = {
-        'Dental Implants': 'dental implant',
-        'Veneers / Smile Makeovers': 'veneer',
-        'Invisalign / Clear Aligners': 'Invisalign',
+        'Dental Implants': 'dental implants',
+        'Veneers / Smile Makeovers': 'veneers & smile makeovers',
+        'Invisalign / Clear Aligners': 'Invisalign / clear aligners',
         'Braces / Orthodontics': 'orthodontics',
         'Full-Mouth Restoration': 'full-mouth restoration',
         'Teeth Whitening': 'teeth whitening',
         'Cosmetic Bonding': 'cosmetic bonding',
         'General Dentistry': 'general dentistry',
-        'Other': 'other'
+        'Other': 'other treatments'
     };
-
-    let mapped = rawTreatments.map(t => treatmentMap[t] || t.toLowerCase());
-    mapped = mapped.filter(t => t !== 'other'); // Remove 'other' for cleaner sentence if present with actuals
+    let mapped = rawTreatments.map(t => treatmentMap[t] || t).filter(t => t !== 'other treatments');
     if (mapped.length === 0) return null;
-
     if (mapped.length === 1) return mapped[0];
     if (mapped.length === 2) return `${mapped[0]} and ${mapped[1]}`;
-    
     const last = mapped.pop();
     return `${mapped.join(', ')}, and ${last}`;
 };
 
-// Helper: Format Email Copy
-const formatEmail = (firstName, treatmentsSentence, clinicName) => {
-    const greetingName = firstName && firstName.trim() !== '' ? firstName.trim() : 'there';
-    const clinic = clinicName && clinicName.trim() !== '' ? clinicName.trim() : 'your clinic';
-    const treatments = treatmentsSentence ? treatmentsSentence : 'your practice';
-    
-    const html = `
-        <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #1a1a1a; line-height: 1.6;">
-            <p>Hi ${greetingName},</p>
-            <p>Thanks for applying for a strategy call with Dental Growth Hub.</p>
-            <p>We’ve received your enquiry about growing ${treatments} at ${clinic}.</p>
-            <p>Expect a WhatsApp message and a call from our team soon to confirm your details.</p>
-            <p>In the meantime, book your preferred time here:</p>
-            
-            <p style="margin: 32px 0;">
-                <a href="${BOOKING_URL}" style="background-color: #2563eb; color: #ffffff; padding: 14px 24px; text-decoration: none; border-radius: 6px; font-weight: 600; display: inline-block;">BOOK YOUR STRATEGY CALL &rarr;</a>
-            </p>
-            
-            <p>If you have any questions or anything you’d like us to know, simply reply to this email so we can plan your meeting better.</p>
-            
-            <p>Looking forward to speaking with you.<br>
-            James<br>
-            Dental Growth Hub</p>
-        </div>
-    `;
+const buildEmail = (firstName, treatmentsSentence, clinicName) => {
+    const name = firstName?.trim() || 'there';
+    const clinic = clinicName?.trim() || 'your clinic';
+    const treatments = treatmentsSentence || 'your dental services';
 
-    const text = `Hi ${greetingName},\n\nThanks for applying for a strategy call with Dental Growth Hub.\n\nWe’ve received your enquiry about growing ${treatments} at ${clinic}.\n\nExpect a WhatsApp message and a call from our team soon to confirm your details.\n\nIn the meantime, book your preferred time here:\n\nBOOK YOUR STRATEGY CALL -> ${BOOKING_URL}\n\nIf you have any questions or anything you’d like us to know, simply reply to this email so we can plan your meeting better.\n\nLooking forward to speaking with you.\nJames\nDental Growth Hub`;
+    const html = `
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#f5f5f5;font-family:'Inter',Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f5f5f5;padding:40px 0;">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+        <!-- Header -->
+        <tr>
+          <td style="background:linear-gradient(135deg,#0a0e14,#111827);padding:32px 40px;text-align:center;">
+            <p style="margin:0;font-size:22px;font-weight:700;color:#e5a93c;letter-spacing:0.5px;">Dental Growth Hub</p>
+            <p style="margin:6px 0 0;font-size:13px;color:#9ca3af;">AI-Driven Patient Acquisition for Dentists</p>
+          </td>
+        </tr>
+        <!-- Body -->
+        <tr>
+          <td style="padding:40px 40px 32px;">
+            <p style="margin:0 0 16px;font-size:16px;color:#111827;">Hi ${name},</p>
+            <p style="margin:0 0 16px;font-size:16px;color:#374151;line-height:1.6;">
+              Thanks for applying for a strategy call with <strong>Dental Growth Hub</strong>.
+            </p>
+            <p style="margin:0 0 16px;font-size:16px;color:#374151;line-height:1.6;">
+              We've received your enquiry about growing <strong>${treatments}</strong> at <strong>${clinic}</strong>.
+            </p>
+            <p style="margin:0 0 24px;font-size:16px;color:#374151;line-height:1.6;">
+              Expect a WhatsApp message and a call from our team shortly to confirm your details and answer any questions.
+            </p>
+            <p style="margin:0 0 8px;font-size:16px;color:#374151;">In the meantime, lock in your preferred call time here:</p>
+            <!-- CTA Button -->
+            <table cellpadding="0" cellspacing="0" style="margin:24px 0;">
+              <tr>
+                <td style="background:linear-gradient(135deg,#e5a93c,#f0c060);border-radius:8px;">
+                  <a href="${BOOKING_URL}" style="display:inline-block;padding:16px 32px;font-size:16px;font-weight:700;color:#000000;text-decoration:none;letter-spacing:0.3px;">
+                    Book Your Strategy Call →
+                  </a>
+                </td>
+              </tr>
+            </table>
+            <p style="margin:24px 0 0;font-size:15px;color:#6b7280;line-height:1.6;">
+              If you have any questions before then, simply reply to this email — I read every one personally.
+            </p>
+          </td>
+        </tr>
+        <!-- Signature -->
+        <tr>
+          <td style="padding:0 40px 32px;">
+            <p style="margin:0;font-size:15px;color:#374151;line-height:1.8;">
+              Talk soon,<br>
+              <strong>James</strong><br>
+              Dental Growth Hub<br>
+              <a href="mailto:${GMAIL_USER}" style="color:#e5a93c;text-decoration:none;">${GMAIL_USER}</a>
+            </p>
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="background:#f9fafb;padding:20px 40px;border-top:1px solid #e5e7eb;">
+            <p style="margin:0;font-size:12px;color:#9ca3af;text-align:center;">
+              © ${new Date().getFullYear()} Dental Growth Hub. You're receiving this because you applied for a strategy call.
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
+
+    const text = `Hi ${name},\n\nThanks for applying for a strategy call with Dental Growth Hub.\n\nWe've received your enquiry about growing ${treatments} at ${clinic}.\n\nExpect a WhatsApp message and a call from our team shortly.\n\nIn the meantime, book your preferred call time here:\n${BOOKING_URL}\n\nIf you have any questions, simply reply to this email.\n\nTalk soon,\nJames\nDental Growth Hub\n${GMAIL_USER}`;
 
     return { html, text };
 };
 
-app.post('/api/webhook', (req, res) => {
-    // Acknowledge receipt immediately
-    res.status(202).json({ status: 'ACCEPTED', message: 'Webhook received.' });
+// ─── Webhook Endpoint ────────────────────────────────────────────────────────
+app.post('/api/webhook', async (req, res) => {
+    res.status(202).json({ status: 'ACCEPTED', message: 'Webhook received. Email will be sent in 15 seconds.' });
 
-    // Extract necessary fields
-    const { 
-        email, 
-        firstName, 
-        procedures, 
-        leadClassification,
-        dgh_external_id, // Use the frontend-generated external ID for deduplication
-        clinicName
-    } = req.body;
+    const { email, firstName, procedures, leadClassification, dgh_external_id, clinicName } = req.body;
+
+    console.log(`\n📨 Webhook received:`);
+    console.log(`   To:             ${email}`);
+    console.log(`   Name:           ${firstName}`);
+    console.log(`   Clinic:         ${clinicName}`);
+    console.log(`   Classification: ${leadClassification}`);
 
     if (!email || !leadClassification) {
-        console.log('Skipping: Missing email or classification.');
+        console.log('⏭  Skipping: Missing email or classification.');
         return;
     }
 
-    // Qualification check
     if (leadClassification !== 'HOT_LEAD' && leadClassification !== 'QUALIFIED_LEAD') {
-        console.log(`Skipping: Lead classification is ${leadClassification}`);
+        console.log(`⏭  Skipping: Not a qualified lead (${leadClassification}).`);
         return;
     }
 
-    // Deduplication check
     const dedupeKey = dgh_external_id || email;
     if (scheduledEmails.has(dedupeKey)) {
-        console.log(`Skipping: Email already scheduled or sent for ${dedupeKey}`);
+        console.log(`⏭  Skipping: Already scheduled/sent for ${dedupeKey}.`);
         return;
     }
 
-    // Schedule the email
     scheduledEmails.set(dedupeKey, { status: 'SCHEDULED', scheduledAt: Date.now() });
-    console.log(`Scheduled follow-up email for ${email} in 15 seconds.`);
+    console.log(`⏰  Email scheduled for ${email} — firing in 15 seconds...`);
 
     const treatmentsSentence = mapTreatments(procedures);
-    const { html, text } = formatEmail(firstName, treatmentsSentence, clinicName);
+    const { html, text } = buildEmail(firstName, treatmentsSentence, clinicName);
 
     const mailOptions = {
-        from: `"Dental Growth Hub" <${EMAIL_USER}>`,
+        from: `"Dental Growth Hub" <${GMAIL_USER}>`,
         to: email,
-        replyTo: EMAIL_USER,
+        replyTo: GMAIL_USER,
         subject: 'Your Dental Growth Hub application — next step',
-        text: text,
-        html: html
+        html,
+        text
     };
 
-    // 15-second delay mechanism (15000ms)
     setTimeout(async () => {
+        console.log(`\n🕒 [15s] Sending email to ${email} via Gmail SMTP...`);
         try {
-            console.log(`\n\n🕒 [15 SECONDS PASSED] Sending scheduled email to ${email}...`);
-            
-            // If the user hasn't set a real App Password yet, we just mock the send so they can test the logic!
-            if (EMAIL_PASS === '' || EMAIL_PASS === 'your-16-character-password') {
-                console.log(`\n======================================================`);
-                console.log(`[TEST MODE] Email successfully generated!`);
-                console.log(`To: ${email}`);
-                console.log(`Subject: ${mailOptions.subject}`);
-                console.log(`Body:\n${mailOptions.text}`);
-                console.log(`======================================================\n`);
-                console.log(`(Note: Actual email was not sent because Google App Password is not configured yet).`);
-                scheduledEmails.set(dedupeKey, { status: 'SENT', sentAt: Date.now() });
-            } else {
-                await transporter.sendMail(mailOptions);
-                scheduledEmails.set(dedupeKey, { status: 'SENT', sentAt: Date.now() });
-                console.log(`✅ Successfully sent real email to ${email}`);
-            }
+            const info = await transporter.sendMail(mailOptions);
+            scheduledEmails.set(dedupeKey, { status: 'SENT', sentAt: Date.now(), messageId: info.messageId });
+            console.log(`✅ Email sent to ${email} | Message ID: ${info.messageId}`);
         } catch (error) {
-            console.error(`❌ Failed to send email to ${email}:`, error);
+            console.error(`❌ Failed to send to ${email}:`, error.message);
             scheduledEmails.set(dedupeKey, { status: 'FAILED', reason: error.message, failedAt: Date.now() });
         }
     }, 15000);
 });
 
-// Local health check
+// ─── Health Check ────────────────────────────────────────────────────────────
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'OK', uptime: process.uptime() });
+    res.json({ status: 'OK', mode: 'Gmail SMTP', from: GMAIL_USER, uptime: Math.round(process.uptime()), scheduled: scheduledEmails.size });
 });
 
 app.listen(PORT, () => {
-    console.log(`Dental Growth Hub Email Service running on port ${PORT}`);
+    console.log(`🚀 Server listening on http://localhost:${PORT}`);
 });

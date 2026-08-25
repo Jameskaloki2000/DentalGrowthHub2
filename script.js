@@ -587,14 +587,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     trackPixelEvent('ApplicationRejected', { score: result.score, reason: result.reason }, true);
                     showStep('reject');
                 } else if (result.classification === 'MANUAL_REVIEW') {
-                    document.getElementById('result-headline').textContent = "Thanks — we've received your application.";
-                    document.getElementById('result-subheadline').textContent = "We'll review your practice and contact you with the next step.";
+                    document.getElementById('result-headline').textContent = "Thanks — we'd like to learn more.";
+                    document.getElementById('result-subheadline').textContent = "Your practice looks interesting. Fill in your details below and we'll review your application and be in touch shortly.";
                     leadForm.querySelector('button[type="submit"]').innerHTML = 'Submit Application';
                     showStep('contact');
                 } else {
                     document.getElementById('result-headline').textContent = "You're a potential fit.";
-                    document.getElementById('result-subheadline').textContent = "Check your email for the next step.";
-                    leadForm.querySelector('button[type="submit"]').innerHTML = 'See Calendar <i class="ph ph-calendar-check" style="margin-left: 8px;"></i>';
+                    document.getElementById('result-subheadline').textContent = "Based on your answers, your practice looks like a strong match. Enter your details below and we'll send you the next step instantly.";
+                    leadForm.querySelector('button[type="submit"]').innerHTML = 'Get My Strategy Call Link <i class="ph ph-arrow-right" style="margin-left: 8px;"></i>';
                     showStep('contact');
                 }
             });
