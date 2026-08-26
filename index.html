@@ -383,66 +383,109 @@
         </div>
     </section>
 
-    <!-- Social Proof / Testimonials -->
+
+    <!-- Video Testimonials Section -->
     <section id="testimonials" class="results-section">
         <div class="container">
             <div class="section-header reveal">
-                <h2 class="section-title">Client <span class="text-gold">Testimonials</span></h2>
-                <p class="section-subtitle">See what our high-ticket clinic partners have to say.</p>
+                <p class="section-label" style="display: inline-flex; align-items: center; gap: 8px; margin-bottom: var(--sp-3);">
+                    <i class="ph ph-video-camera" style="font-size: 1.1rem;"></i> Client Stories
+                </p>
+                <h2 class="section-title">Real Clinics. <span class="text-gold">Real Results.</span></h2>
+                <p class="section-subtitle" style="max-width: 560px; margin-inline: auto;">We're currently filming case studies with our partner clinics across Kenya. <br>Watch this space — these stories are coming.</p>
             </div>
 
-            <div class="coming-soon-banner reveal" style="margin-bottom: var(--sp-6); text-align: center;">
-                <span class="section-label"
-                    style="background: rgba(229, 169, 60, 0.1); color: var(--gold-solid); border: 1px solid rgba(229, 169, 60, 0.2); border-radius: 100px; padding: 6px 16px; font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
-                    <i class="ph ph-video-camera" style="font-size: 1.1rem;"></i> Video Testimonials Coming Soon
+            <!-- Upload notice badge -->
+            <div class="reveal" style="text-align: center; margin-bottom: var(--sp-8);">
+                <span style="display: inline-flex; align-items: center; gap: 10px; background: rgba(229,169,60,0.1); border: 1px solid rgba(229,169,60,0.25); border-radius: 100px; padding: 8px 20px; font-size: 0.85rem; font-weight: 600; color: var(--gold-solid);">
+                    <span style="width: 8px; height: 8px; background: var(--gold-solid); border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite;"></span>
+                    Uploading Soon — Filming in Progress
                 </span>
             </div>
 
-            <div class="testimonial-grid">
-                <!-- Testimonial 1 -->
-                <div class="glass-card testimonial-card reveal">
-                    <div class="test-header">
-                        <div class="test-avatar"><i class="ph ph-user" aria-hidden="true"></i></div>
-                        <div>
-                            <h4>Dr. Sarah W. <span
-                                    style="color: #4ade80; font-size: 0.8rem; margin-left: 4px; display: inline-flex; align-items: center; gap: 4px;"><i
-                                        class="ph-fill ph-check-circle"></i> Verified Partner</span></h4>
-                            <p class="text-muted">Orthodontist, Nairobi</p>
+            <!-- Video placeholder cards -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-bottom: var(--sp-10);">
+
+                <!-- Card 1 -->
+                <div class="glass-card reveal" style="padding: 0; overflow: hidden; border-radius: 16px;">
+                    <div style="position: relative; background: linear-gradient(145deg, #0d1117, #161c24); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;">
+                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(229,169,60,0.08) 0%, transparent 70%);"></div>
+                        <!-- Play button -->
+                        <div style="width: 60px; height: 60px; background: rgba(229,169,60,0.15); border: 2px solid rgba(229,169,60,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                            <i class="ph-fill ph-play" style="font-size: 1.5rem; color: var(--gold-solid); margin-left: 4px;"></i>
                         </div>
+                        <!-- Coming soon overlay -->
+                        <div style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; color: var(--gold-solid);">Coming Soon</div>
                     </div>
-                    <div class="test-body">
-                        "The lead quality is incredible. We booked 12 new Invisalign patients in our first month alone.
-                        Highly recommended."
-                    </div>
-                    <div class="test-metric">
-                        <span class="metric-number">12</span>
-                        <span class="metric-label">Invisalign Consults / Month</span>
+                    <div style="padding: 20px 24px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1e2a3a, #2a3a50); display: flex; align-items: center; justify-content: center;">
+                                <i class="ph ph-user" style="color: var(--gold-solid);"></i>
+                            </div>
+                            <div>
+                                <p style="margin: 0; font-weight: 600; font-size: 0.95rem; color: var(--text-main);">Dr. Sarah W.</p>
+                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-muted);">Orthodontist · Nairobi</p>
+                            </div>
+                        </div>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; font-style: italic;">"12 new Invisalign consults in our first month. The lead quality is unlike anything we've tried before."</p>
                     </div>
                 </div>
 
-                <!-- Testimonial 2 -->
-                <div class="glass-card testimonial-card reveal" style="transition-delay: 0.1s">
-                    <div class="test-header">
-                        <div class="test-avatar"><i class="ph ph-user" aria-hidden="true"></i></div>
-                        <div>
-                            <h4>Dr. Kenneth M. <span
-                                    style="color: #4ade80; font-size: 0.8rem; margin-left: 4px; display: inline-flex; align-items: center; gap: 4px;"><i
-                                        class="ph-fill ph-check-circle"></i> Verified Partner</span></h4>
-                            <p class="text-muted">Cosmetic Dentistry</p>
+                <!-- Card 2 -->
+                <div class="glass-card reveal" style="padding: 0; overflow: hidden; border-radius: 16px; transition-delay: 0.1s;">
+                    <div style="position: relative; background: linear-gradient(145deg, #0d1117, #161c24); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;">
+                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(229,169,60,0.08) 0%, transparent 70%);"></div>
+                        <div style="width: 60px; height: 60px; background: rgba(229,169,60,0.15); border: 2px solid rgba(229,169,60,0.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1;">
+                            <i class="ph-fill ph-play" style="font-size: 1.5rem; color: var(--gold-solid); margin-left: 4px;"></i>
                         </div>
+                        <div style="position: absolute; top: 12px; right: 12px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600; color: var(--gold-solid);">Coming Soon</div>
                     </div>
-                    <div class="test-body">
-                        "They completely transformed our practice. We now get consistent, high-ticket veneer and implant
-                        patients every single week."
-                    </div>
-                    <div class="test-metric">
-                        <span class="metric-number">400%</span>
-                        <span class="metric-label">Increase in Implant Inquiries</span>
+                    <div style="padding: 20px 24px;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                            <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1e2a3a, #2a3a50); display: flex; align-items: center; justify-content: center;">
+                                <i class="ph ph-user" style="color: var(--gold-solid);"></i>
+                            </div>
+                            <div>
+                                <p style="margin: 0; font-weight: 600; font-size: 0.95rem; color: var(--text-main);">Dr. Kenneth M.</p>
+                                <p style="margin: 0; font-size: 0.8rem; color: var(--text-muted);">Cosmetic Dentistry · Nairobi</p>
+                            </div>
+                        </div>
+                        <p style="margin: 0; font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; font-style: italic;">"Consistent high-ticket implant and veneer patients every week. Our revenue has completely transformed."</p>
                     </div>
                 </div>
+
+                <!-- Card 3 — Invite card -->
+                <div class="glass-card reveal" style="padding: 0; overflow: hidden; border-radius: 16px; transition-delay: 0.2s; border: 1px dashed rgba(229,169,60,0.3);">
+                    <div style="position: relative; background: linear-gradient(145deg, #0a0e14, #111827); aspect-ratio: 16/9; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;">
+                        <div style="position: absolute; inset: 0; background: radial-gradient(circle at 50% 50%, rgba(229,169,60,0.05) 0%, transparent 70%);"></div>
+                        <i class="ph ph-video-camera-plus" style="font-size: 2.5rem; color: rgba(229,169,60,0.5); position: relative; z-index: 1;"></i>
+                        <p style="margin: 0; font-size: 0.85rem; font-weight: 600; color: rgba(229,169,60,0.7); position: relative; z-index: 1;">Your Practice Here</p>
+                    </div>
+                    <div style="padding: 20px 24px; text-align: center;">
+                        <p style="margin: 0 0 8px; font-weight: 600; font-size: 0.95rem; color: var(--text-main);">Be Our Next Success Story</p>
+                        <p style="margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">Join our partner clinics and let your results do the talking. Apply for a strategy call below.</p>
+                    </div>
+                </div>
+
             </div>
+
+            <!-- Trust statement -->
+            <div class="reveal" style="text-align: center;">
+                <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 500px; margin-inline: auto; line-height: 1.7;">
+                    We only work with <strong style="color: var(--text-main);">2 new clinics per month</strong> to ensure every partner gets the results they deserve. These videos will reflect that promise.
+                </p>
+            </div>
+
         </div>
     </section>
+
+    <style>
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.75); }
+        }
+    </style>
+
 
     <!-- Booking Section -->
     <section id="booking" class="booking">
